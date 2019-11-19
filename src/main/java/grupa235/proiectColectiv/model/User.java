@@ -2,6 +2,8 @@ package grupa235.proiectColectiv.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="users")
@@ -24,6 +26,7 @@ public class User implements Serializable
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.ROLE_USER;
+
 
     public User() {
     }

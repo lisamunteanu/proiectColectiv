@@ -2,6 +2,8 @@ package grupa235.proiectColectiv.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="movies")
@@ -31,6 +33,7 @@ public class Movie implements Serializable {
 
     @Column(name = "image")
     private String image;
+
 
     public Movie() {
     }
