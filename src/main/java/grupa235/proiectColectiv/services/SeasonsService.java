@@ -50,7 +50,6 @@ public class SeasonsService {
     public Season updateSeason(Season season) throws Exception{
         Season updatedSeason = this.seasonsRepository.findById(season.getId()).get();
         if(updatedSeason!=null){
-            //Depends what we want to update
             updatedSeason.setGeneralDescription(season.getGeneralDescription());
             updatedSeason.setNumber(season.getNumber());
             updatedSeason.setName(season.getName());

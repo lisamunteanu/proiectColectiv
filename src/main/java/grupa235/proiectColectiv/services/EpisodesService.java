@@ -50,7 +50,6 @@ public class EpisodesService {
     public Episode updateEpisode(Episode episode) throws Exception{
         Episode updatedEpisode = this.episodesRepository.findById(episode.getId()).get();
         if (updatedEpisode!=null){
-            //Depends what we want to update
             updatedEpisode.setNumber(episode.getNumber());
             updatedEpisode.setDuration(episode.getDuration());
             updatedEpisode.setDescription(episode.getDescription());

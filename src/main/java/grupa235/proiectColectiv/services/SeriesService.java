@@ -36,10 +36,9 @@ public class SeriesService {
     public Series updateSerial(Series serial) throws Exception{
         Series isPresentSerial = this.seriesRepository.findById(serial.getId()).get();
         if(isPresentSerial!=null){
-//            isPresentSerial.setGenres(serial.getGenres());
-//            isPresentSerial.setDirector(serial.getDirector());   Depends what we want to update->If we want more please ctrl + / :))
-//            isPresentSerial.setReleaseDate(serial.getReleaseDate());
-//            isPresentSerial.setName(serial.getName());
+            isPresentSerial.setGenres(serial.getGenres());
+            isPresentSerial.setDirector(serial.getDirector());
+            isPresentSerial.setName(serial.getName());
             isPresentSerial.setNoOfSeasons(serial.getNoOfSeasons());
             isPresentSerial.setNoOfEpisodes(serial.getNoOfEpisodes());
             this.seriesRepository.save(isPresentSerial);
