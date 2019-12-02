@@ -79,4 +79,12 @@ public class Episode implements Serializable {
     public void setDuration(Integer duration) {
         this.duration = duration;
     }
+
+    public Season getSeason() {
+        return season;
+    }
+
+    public void setSeason(Season season) {
+        this.season = season;
+    }
 }

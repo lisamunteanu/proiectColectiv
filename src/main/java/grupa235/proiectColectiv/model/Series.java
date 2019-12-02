@@ -107,4 +107,12 @@ public class Series implements Serializable {
     public void setDirector(String director) {
         this.director = director;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

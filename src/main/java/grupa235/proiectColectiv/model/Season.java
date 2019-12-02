@@ -36,6 +36,8 @@ public class Season implements Serializable {
         this.number = number;
     }
 
+    public Season(){}
+
     public Integer getId() {
         return id;
     }
@@ -66,5 +68,13 @@ public class Season implements Serializable {
 
     public void setNumber(Integer number) {
         this.number = number;
+    }
+
+    public void setSeries(Series series) {
+        this.series = series;
+    }
+
+    public Series getSeries() {
+        return series;
     }
 }
