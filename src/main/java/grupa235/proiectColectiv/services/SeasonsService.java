@@ -9,7 +9,9 @@ import grupa235.proiectColectiv.repository.SeriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SeasonsService {
@@ -36,17 +38,29 @@ public class SeasonsService {
         return this.seasonsRepository.getAllSeasonsFromASerial(serialId);
     }
 
-    public Season addSeason(SeasonModel seasonModel) throws Exception{
+    @Transactional
+    public Season addSeason(SeasonModel seasonModel){
         Season season = ConvertData.convertSeasonModelToSeason(seasonModel);
-        Series series = this.seriesRepository.findById(seasonModel.getSerialId()).get();
-        if(series!=null){
-            season.setSeries(series);
+        Optional<Series> optionalSerial = this.seriesRepository.getSerialByName(seasonModel.getSerialName());
+        if(optionalSerial.isPresent()){
+            Series serial = optionalSerial.get();
+            int totalSeries = serial.getNoOfSeasons();
+            serial.setNoOfSeasons(totalSeries+1);
+            this.seriesRepository.save(serial);
+            season.setSeries(serial);
+            Optional<Integer> seasonNumber = this.seasonsRepository.getLastSeasonNumber(serial.getId());
+            if(seasonNumber.isPresent()){
+                season.setNumber(seasonNumber.get()+1);
+            }
+            else{
+                season.setNumber(1);
+            }
             this.seasonsRepository.save(season);
-            return season;
         }
-        return null;
+        return season;
     }
 
+    @Transactional
     public Season updateSeason(Season season) throws Exception{
         Season updatedSeason = this.seasonsRepository.findById(season.getId()).get();
         if(updatedSeason!=null){

@@ -3,17 +3,15 @@ package grupa235.proiectColectiv.frontendModel;
 public class EpisodeModel {
 
     private String name;
-    private Integer number;
     private String description;
     private Integer duration;
-    private Integer seasonId;
+    private String serialName;
 
-    public EpisodeModel(String name, Integer number, String description, Integer duration, Integer seasonId) {
+    public EpisodeModel(String name, String description, Integer duration, String serialName) {
         this.name = name;
-        this.number = number;
         this.description = description;
         this.duration = duration;
-        this.seasonId = seasonId;
+        this.serialName = serialName;
     }
 
     public EpisodeModel(){}
@@ -26,13 +24,6 @@ public class EpisodeModel {
         this.name = name;
     }
 
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
 
     public String getDescription() {
         return description;
@@ -50,22 +41,21 @@ public class EpisodeModel {
         this.duration = duration;
     }
 
-    public Integer getSeasonId() {
-        return seasonId;
+    public String getSerialName() {
+        return serialName;
     }
 
-    public void setSeasonId(Integer seasonId) {
-        this.seasonId = seasonId;
+    public void setSerialName(String serialName) {
+        this.serialName = serialName;
     }
 
     @Override
     public String toString() {
         return "EpisodeModel{" +
                 "name='" + name + '\'' +
-                ", number=" + number +
                 ", description='" + description + '\'' +
                 ", duration=" + duration +
-                ", seasonId=" + seasonId +
+                ", serialName='" + serialName + '\'' +
                 '}';
     }
 }

@@ -7,14 +7,12 @@ public class SeasonModel implements Serializable {
 
     private String name;
     private String generalDescription;
-    private Integer number;
-    private Integer serialId;
+    private String serialName;
 
-    public SeasonModel(String name, String generalDescription, Integer number, Integer serialId) {
+    public SeasonModel(String name, String generalDescription, String serialName) {
         this.name = name;
         this.generalDescription = generalDescription;
-        this.number = number;
-        this.serialId = serialId;
+        this.serialName = serialName;
     }
 
     public SeasonModel(){}
@@ -35,20 +33,13 @@ public class SeasonModel implements Serializable {
         this.generalDescription = generalDescription;
     }
 
-    public Integer getNumber() {
-        return number;
+
+    public String getSerialName() {
+        return serialName;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
-
-    public Integer getSerialId() {
-        return serialId;
-    }
-
-    public void setSerialId(Integer serialId) {
-        this.serialId = serialId;
+    public void setSerialName(String searialName) {
+        this.serialName = searialName;
     }
 
     @Override
@@ -56,8 +47,7 @@ public class SeasonModel implements Serializable {
         return "SeasonModel{" +
                 "name='" + name + '\'' +
                 ", generalDescription='" + generalDescription + '\'' +
-                ", number=" + number +
-                ", serialId=" + serialId +
+                ", serialName='" + serialName + '\'' +
                 '}';
     }
 }

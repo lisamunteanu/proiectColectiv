@@ -27,7 +27,6 @@ public class ConvertData {
         Season season = new Season();
         season.setGeneralDescription(seasonModel.getGeneralDescription());
         season.setName(seasonModel.getName());
-        season.setNumber(seasonModel.getNumber());
         return season;
     }
 
@@ -36,7 +35,6 @@ public class ConvertData {
         episode.setDescription(episodeModel.getDescription());
         episode.setDuration(episodeModel.getDuration());
         episode.setName(episodeModel.getName());
-        episode.setNumber(episodeModel.getNumber());
         return episode;
     }
 

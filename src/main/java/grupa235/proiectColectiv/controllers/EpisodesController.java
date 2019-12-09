@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.ResourceAccessException;
 
 import java.util.List;
 
@@ -49,12 +48,8 @@ public class EpisodesController {
 
     @PostMapping({"/episodes"})
     public ResponseEntity<?> addEpisode(@RequestBody EpisodeModel episodeModel){
-        try {
-            Episode episode = this.episodesService.addEpisode(episodeModel);
-            return new ResponseEntity<>(episode, HttpStatus.OK);
-        } catch (Exception ex){
-            return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
-        }
+        Episode episode = this.episodesService.addEpisode(episodeModel);
+        return new ResponseEntity<>(episode, HttpStatus.OK);
     }
 
     @PutMapping({"/episodes"})

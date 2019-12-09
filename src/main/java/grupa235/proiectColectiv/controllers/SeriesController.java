@@ -29,6 +29,12 @@ public class SeriesController {
         return new ResponseEntity<>(series, HttpStatus.OK);
     }
 
+    @GetMapping({"/seriesNames"})
+    public ResponseEntity<List<String>> getNames(){
+        List<String> names = this.seriesService.getAllNamesSeries();
+        return new ResponseEntity<>(names, HttpStatus.OK);
+    }
+
     @GetMapping({"/series/{serialId}"})
     public ResponseEntity<?> getSerialById(@PathVariable String serialId){
         try {
@@ -41,7 +47,7 @@ public class SeriesController {
 
     @PostMapping({"/series"})
     public ResponseEntity<Series> addSerial(@RequestBody SerialModel serialModel){
-        Series serial = this.seriesService.addSerial(serialModel);
+        Series serial = this.seriesService.addOrUpdate(serialModel);
         return new ResponseEntity<>(serial,HttpStatus.OK);
     }
 

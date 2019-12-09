@@ -46,13 +46,9 @@ public class SeasonsController {
     }
 
     @PostMapping({"/seasons"})
-    public ResponseEntity<?> addSeason(@RequestBody SeasonModel seasonModel){
-        try {
-            Season season = this.seasonsService.addSeason(seasonModel);
-            return new ResponseEntity<>(season, HttpStatus.OK);
-        } catch (Exception ex){
-            return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Season> addSeason(@RequestBody SeasonModel seasonModel){
+        Season season = this.seasonsService.addSeason(seasonModel);
+        return new ResponseEntity<>(season, HttpStatus.OK);
     }
 
     @PutMapping({"/seasons"})
