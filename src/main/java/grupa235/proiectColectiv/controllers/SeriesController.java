@@ -2,7 +2,7 @@ package grupa235.proiectColectiv.controllers;
 
 import grupa235.proiectColectiv.frontendModel.SerialModel;
 import grupa235.proiectColectiv.model.Series;
-import grupa235.proiectColectiv.services.SeriesService;
+import grupa235.proiectColectiv.services.impl.SeriesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +16,10 @@ import java.util.List;
 )
 public class SeriesController {
 
-    private final SeriesService seriesService;
+    private final SeriesServiceImpl seriesService;
 
     @Autowired
-    public SeriesController(SeriesService seriesService) {
+    public SeriesController(SeriesServiceImpl seriesService) {
         this.seriesService = seriesService;
     }
 

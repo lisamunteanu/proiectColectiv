@@ -2,7 +2,7 @@ package grupa235.proiectColectiv.controllers;
 
 import grupa235.proiectColectiv.frontendModel.SeasonModel;
 import grupa235.proiectColectiv.model.Season;
-import grupa235.proiectColectiv.services.SeasonsService;
+import grupa235.proiectColectiv.services.impl.SeasonsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +16,10 @@ import java.util.List;
 )
 public class SeasonsController {
 
-    private final SeasonsService seasonsService;
+    private final SeasonsServiceImpl seasonsService;
 
     @Autowired
-    public SeasonsController(SeasonsService seasonsService) {
+    public SeasonsController(SeasonsServiceImpl seasonsService) {
         this.seasonsService = seasonsService;
     }
 

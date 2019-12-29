@@ -10,7 +10,7 @@ public class EpisodeHistory implements Serializable {
     @EmbeddedId
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idUser")
-    private User user;
+    private RepoUser user;
 
     @EmbeddedId
     @ManyToOne(cascade = CascadeType.ALL)
@@ -23,7 +23,7 @@ public class EpisodeHistory implements Serializable {
     @Column(name="rating")
     private Integer rating;
 
-    public EpisodeHistory(User user, Episode episode, LocalDateTime watchingDate, Integer rating) {
+    public EpisodeHistory(RepoUser user, Episode episode, LocalDateTime watchingDate, Integer rating) {
         this.user = user;
         this.episode = episode;
         this.watchingDate = watchingDate;
@@ -33,11 +33,11 @@ public class EpisodeHistory implements Serializable {
     public EpisodeHistory() {
     }
 
-    public User getUser() {
+    public RepoUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(RepoUser user) {
         this.user = user;
     }
 
