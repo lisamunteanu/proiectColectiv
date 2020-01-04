@@ -10,7 +10,7 @@ public class MovieHistory implements Serializable {
     @EmbeddedId
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idUser")
-    private User user;
+    private RepoUser user;
 
     @EmbeddedId
     @ManyToOne(cascade = CascadeType.ALL)
@@ -24,7 +24,7 @@ public class MovieHistory implements Serializable {
     private Integer rating;
 
 
-    public MovieHistory(User user, Movie movie, LocalDateTime watchingDate) {
+    public MovieHistory(RepoUser user, Movie movie, LocalDateTime watchingDate) {
         this.user = user;
         this.movie = movie;
         this.watchingDate = watchingDate;
@@ -33,11 +33,11 @@ public class MovieHistory implements Serializable {
     public MovieHistory() {
     }
 
-    public User getUser() {
+    public RepoUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(RepoUser user) {
         this.user = user;
     }
 

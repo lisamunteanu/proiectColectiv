@@ -1,58 +1,28 @@
-package grupa235.proiectColectiv.model;
-import javax.persistence.*;
-import java.io.Serializable;
+package grupa235.proiectColectiv.frontendModel;
+
 import java.time.LocalDate;
 
-@Entity
-@Table(name="movies")
-public class Movie implements Serializable {
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="id",updatable = false,nullable = false)
-    private Integer id;
-
-    @Column(name="name",nullable = false)
+public class MovieModel {
     private String name;
-
-    @Column(name="genres",nullable = false)
     private String genres;
-
-    @Column(name="releaseYear")
     private String releaseYear;
-
-    @Column(name="duration")
     private Integer duration;
-
-    @Column(name="rating")
     private Double rating;
-
-    @Column(name="director")
     private String director;
-
-    @Column(name = "image")
     private String image;
 
-
-    public Movie() {
-    }
-
-    public Movie(String name, String genres, String releaseYear, Integer duration, Double rating, String director,
-                 String image) {
+    public MovieModel(String name, String genres, String releaseYear,
+                      Integer duration, Double rating, String director, String image) {
         this.name = name;
         this.genres = genres;
         this.releaseYear = releaseYear;
         this.duration = duration;
         this.rating = rating;
         this.director = director;
-        this.image=image;
+        this.image = image;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public MovieModel() {
     }
 
     public String getName() {

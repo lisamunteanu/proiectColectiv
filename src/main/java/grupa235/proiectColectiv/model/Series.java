@@ -20,8 +20,8 @@ public class Series implements Serializable {
     @Column(name = "image")
     private String image;
 
-    @Column(name="releaseDate")
-    private LocalDate releaseDate;
+    @Column(name="releaseYear")
+    private String releaseYear;
 
     @Column(name="noOfEpisodes")
     private Integer noOfEpisodes;
@@ -39,16 +39,19 @@ public class Series implements Serializable {
     private Set<Season> seasons;
 
 
-    public Series(String name, LocalDate releaseDate, Integer noOfEpisodes, Integer noOfSeasons,String genres,String director) {
-        this.name = name;
-        this.releaseDate = releaseDate;
-        this.noOfEpisodes = noOfEpisodes;
-        this.noOfSeasons = noOfSeasons;
-        this.genres=genres;
-        this.director=director;
-    }
 
     public Series() {
+    }
+
+    public Series(String name, String image, String releaseYear, Integer noOfEpisodes, Integer noOfSeasons, String genres, String director, Set<Season> seasons) {
+        this.name = name;
+        this.image = image;
+        this.releaseYear = releaseYear;
+        this.noOfEpisodes = noOfEpisodes;
+        this.noOfSeasons = noOfSeasons;
+        this.genres = genres;
+        this.director = director;
+        this.seasons = seasons;
     }
 
 
@@ -68,12 +71,12 @@ public class Series implements Serializable {
         this.name = name;
     }
 
-    public LocalDate getReleaseDate() {
-        return releaseDate;
+    public String getReleaseYear() {
+        return releaseYear;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setReleaseYear(String releaseYear) {
+        this.releaseYear = releaseYear;
     }
 
     public Integer getNoOfEpisodes() {

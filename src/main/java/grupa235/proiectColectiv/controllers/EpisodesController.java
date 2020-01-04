@@ -2,12 +2,11 @@ package grupa235.proiectColectiv.controllers;
 
 import grupa235.proiectColectiv.frontendModel.EpisodeModel;
 import grupa235.proiectColectiv.model.Episode;
-import grupa235.proiectColectiv.services.EpisodesService;
+import grupa235.proiectColectiv.services.impl.EpisodesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.ResourceAccessException;
 
 import java.util.List;
 
@@ -17,11 +16,11 @@ import java.util.List;
 )
 public class EpisodesController {
 
-    private final EpisodesService episodesService;
+    private final EpisodesServiceImpl episodesService;
 
     @Autowired
-    public EpisodesController(EpisodesService episodesService) {
-        this.episodesService = episodesService;
+    public EpisodesController(EpisodesServiceImpl episodesServiceImpl) {
+        this.episodesService = episodesServiceImpl;
     }
 
     @GetMapping({"/episodes"})
