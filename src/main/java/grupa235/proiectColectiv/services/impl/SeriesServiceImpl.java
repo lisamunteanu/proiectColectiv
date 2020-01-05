@@ -47,4 +47,12 @@ public class SeriesServiceImpl implements SeriesService {
         return isPresentSerial;
     }
 
+    @Override
+    public List<Series> SortSeriesByRating() {
+        return this.seriesRepository.findAll();
+    }
+
+    @Override
+    public List<Series> SortSeriesByStartYear() { return this.seriesRepository.findAll(); }
+
 }

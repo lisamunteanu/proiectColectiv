@@ -1,7 +1,7 @@
 package grupa235.proiectColectiv.frontendModel;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 public class SerialModel implements Serializable {
 
@@ -11,14 +11,21 @@ public class SerialModel implements Serializable {
     private Integer noOfSeasons;
     private String genres;
     private String director;
+    private Integer rating;
+    private Date startYear;
+    private Date endYear;
 
-    public SerialModel(String name, String image,Integer noOfEpisodes, Integer noOfSeasons, String genres, String director) {
+
+    public SerialModel(String name, String image,Integer noOfEpisodes, Integer noOfSeasons, String genres, String director, Integer rating, Date startYear, Date endYear) {
         this.name = name;
         this.image = image;
         this.noOfEpisodes = noOfEpisodes;
         this.noOfSeasons = noOfSeasons;
         this.genres = genres;
         this.director = director;
+        this.rating=rating;
+        this.startYear=startYear;
+        this.endYear=endYear;
     }
 
     public SerialModel() {
@@ -72,6 +79,31 @@ public class SerialModel implements Serializable {
         this.director = director;
     }
 
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setrating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public Date getStartYear() {
+        return startYear;
+    }
+
+    public void setStartYear(Date startYear) {
+        this.startYear = startYear;
+    }
+
+    public Date getEndYear() {
+        return endYear;
+    }
+
+    public void setEndYear(Date endYear) {
+        this.endYear = endYear;
+    }
+
+
     @Override
     public String toString() {
         return "SerialModel{" +
@@ -81,6 +113,9 @@ public class SerialModel implements Serializable {
                 ", noOfSeasons=" + noOfSeasons +
                 ", genres='" + genres + '\'' +
                 ", director='" + director + '\'' +
+                ", rating='" + rating + '\'' +
+                ", startYear='" + startYear + '\'' +
+                ", endYear='" + endYear + '\'' +
                 '}';
     }
 }

@@ -3,6 +3,7 @@ package grupa235.proiectColectiv.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name="episode_history")
@@ -23,11 +24,15 @@ public class EpisodeHistory implements Serializable {
     @Column(name="rating")
     private Integer rating;
 
-    public EpisodeHistory(RepoUser user, Episode episode, LocalDateTime watchingDate, Integer rating) {
+    @Column(name="addedDate")
+    private Date addedDate;
+
+    public EpisodeHistory(RepoUser user, Episode episode, LocalDateTime watchingDate, Integer rating, Date addedDate) {
         this.user = user;
         this.episode = episode;
         this.watchingDate = watchingDate;
         this.rating = rating;
+        this.addedDate=addedDate;
     }
 
     public EpisodeHistory() {
@@ -63,5 +68,13 @@ public class EpisodeHistory implements Serializable {
 
     public void setRating(Integer rating) {
         this.rating = rating;
+    }
+
+    public Date getAddedDate() {
+        return addedDate;
+    }
+
+    public void setAddedDate(Date addedDate) {
+        this.addedDate = addedDate;
     }
 }

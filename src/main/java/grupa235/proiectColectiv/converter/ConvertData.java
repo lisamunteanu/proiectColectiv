@@ -66,4 +66,15 @@ public class ConvertData {
         return movieModel;
     }
 
+    public static SerialModel convertSeriesToSeriesModel(Series serial) {
+        SerialModel serialModel = new SerialModel();
+        serialModel.setName(serial.getName());
+        serialModel.setImage(serial.getImage());
+        serialModel.setNoOfEpisodes(serial.getNoOfEpisodes());
+        serialModel.setNoOfSeasons(serial.getNoOfSeasons());
+        serialModel.setGenres(serial.getGenres());
+        serialModel.setDirector(serial.getDirector());
+        return serialModel;
+    }
+
 }

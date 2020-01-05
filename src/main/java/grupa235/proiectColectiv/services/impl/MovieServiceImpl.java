@@ -23,4 +23,29 @@ public class MovieServiceImpl implements MovieService {
     public Optional<Movie> findById(Integer id){
         return movieRepository.findById(id);
     }
+
+    @Override
+    public List<Movie> FilterMoviesByGenres(String genre) {
+        return movieRepository.findAll();
+    }
+
+    @Override
+    public List<Movie> SortMoviesByAddedDate() {
+        return movieRepository.findAll();
+    }
+
+    @Override
+    public List<Movie> SortMoviesByRating() {
+        return movieRepository.findAll();
+    }
+
+    @Override
+    public List<Movie> SortMoviesByReleaseYear() {
+        return movieRepository.findAll();
+    }
+
+    @Override
+    public List<Movie> SortMoviesByName() {
+        return movieRepository.findAll();
+    }
 }

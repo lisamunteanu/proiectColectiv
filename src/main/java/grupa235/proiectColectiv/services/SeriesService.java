@@ -13,4 +13,8 @@ public interface SeriesService {
     Series findSerialById(int id) throws Exception;
 
     Series updateSerial(Series serial) throws Exception;
+
+    List<Series> SortSeriesByRating();
+
+    List<Series> SortSeriesByStartYear();
 }

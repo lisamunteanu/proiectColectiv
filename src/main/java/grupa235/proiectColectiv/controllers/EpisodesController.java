@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -65,4 +68,19 @@ public class EpisodesController {
             return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
+
+    /////
+    @GetMapping(value = "/episodes")
+    public ResponseEntity<List<EpisodeModel>> SortEpisodesByAddedDate() {
+        List<Episode> allEpisodes = episodesService.getAllEpisodes();
+        List<EpisodeModel> convertedEpisodes = new ArrayList<>();
+
+        Comparator<Episode> compareByAddedDate = Comparator.comparing(Episode :: getAddedDate);
+        Collections.sort(allEpisodes, compareByAddedDate);
+        //Collections.sort(allMovies, (p1, p2) -> Long.valueOf(p1.getAddedDate().getTime()).compareTo(p2.getAddedDate().getTime()));
+
+        return new ResponseEntity<>(convertedEpisodes, HttpStatus.OK);
+    }
+
+
 }

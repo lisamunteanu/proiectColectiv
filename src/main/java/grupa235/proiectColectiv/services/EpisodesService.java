@@ -15,4 +15,6 @@ public interface EpisodesService {
     Episode addEpisode(EpisodeModel episodeModel) throws Exception;
 
     Episode updateEpisode(Episode episode) throws Exception;
+
+    List<Episode> SortEpisodesByAddedDate();
 }

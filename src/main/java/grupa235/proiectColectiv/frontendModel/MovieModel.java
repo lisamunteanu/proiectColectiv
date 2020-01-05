@@ -1,6 +1,6 @@
 package grupa235.proiectColectiv.frontendModel;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class MovieModel {
     private String name;
@@ -10,9 +10,11 @@ public class MovieModel {
     private Double rating;
     private String director;
     private String image;
+    //added date
+    private Date addedDate;
 
     public MovieModel(String name, String genres, String releaseYear,
-                      Integer duration, Double rating, String director, String image) {
+                      Integer duration, Double rating, String director, String image, Date addedDate) {
         this.name = name;
         this.genres = genres;
         this.releaseYear = releaseYear;
@@ -20,6 +22,7 @@ public class MovieModel {
         this.rating = rating;
         this.director = director;
         this.image = image;
+        this.addedDate = addedDate;
     }
 
     public MovieModel() {
@@ -79,5 +82,13 @@ public class MovieModel {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Date getAddedDate() {
+        return addedDate;
+    }
+
+    public void setAddedDate(Date addedDate) {
+        this.addedDate = addedDate;
     }
 }

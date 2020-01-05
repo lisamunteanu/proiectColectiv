@@ -59,4 +59,9 @@ public class EpisodesServiceImpl implements EpisodesService {
         return updatedEpisode;
     }
 
+    @Override
+    public List<Episode> SortEpisodesByAddedDate() {
+        return this.episodesRepository.findAll();
+    }
+
 }
