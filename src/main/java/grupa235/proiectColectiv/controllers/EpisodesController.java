@@ -1,5 +1,6 @@
 package grupa235.proiectColectiv.controllers;
 
+import grupa235.proiectColectiv.converter.ConvertData;
 import grupa235.proiectColectiv.frontendModel.EpisodeModel;
 import grupa235.proiectColectiv.model.Episode;
 import grupa235.proiectColectiv.services.impl.EpisodesServiceImpl;
@@ -9,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -72,15 +71,11 @@ public class EpisodesController {
     /////
     @GetMapping(value = "/episodes")
     public ResponseEntity<List<EpisodeModel>> SortEpisodesByAddedDate() {
-        List<Episode> allEpisodes = episodesService.getAllEpisodes();
+        List<Episode> allEpisodes = episodesService.SortEpisodesByAddedDate();
         List<EpisodeModel> convertedEpisodes = new ArrayList<>();
-
-        Comparator<Episode> compareByAddedDate = Comparator.comparing(Episode :: getAddedDate);
-        Collections.sort(allEpisodes, compareByAddedDate);
-        //Collections.sort(allMovies, (p1, p2) -> Long.valueOf(p1.getAddedDate().getTime()).compareTo(p2.getAddedDate().getTime()));
-
+        for (Episode e : allEpisodes) {
+            convertedEpisodes.add(ConvertData.convertEpisodeToEpisodeModel(e));
+        }
         return new ResponseEntity<>(convertedEpisodes, HttpStatus.OK);
     }
-
-
 }

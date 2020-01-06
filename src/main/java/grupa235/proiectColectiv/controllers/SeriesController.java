@@ -10,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -61,51 +59,44 @@ public class SeriesController {
     ///////////// FilterSeriesByGenres
     @GetMapping(value = "series/{genre}")
     public ResponseEntity<List<SerialModel>> FilterSeriesByGenres(@PathVariable String genre) {
-        List<Series> allSeries = seriesService.getAllSeries();
+        List<Series> allSeries = seriesService.FilterSeriesByGenres(genre);
         List<SerialModel> convertedSeries = new ArrayList<>();
         for (Series s : allSeries) {
-            if(s.getGenres().contains(genre)) {
-                convertedSeries.add(ConvertData.convertSeriesToSeriesModel(s));
-            }
+            convertedSeries.add(ConvertData.convertSeriesToSeriesModel(s));
         }
         return new ResponseEntity<>(convertedSeries, HttpStatus.OK);
     }
     ///////////////SortseriesByName
     @GetMapping(value = "/series")
     public ResponseEntity<List<SerialModel>> SortSeriesByName() {
-        List<Series> allSeries = seriesService.getAllSeries();
+        List<Series> allSeries = seriesService.SortSeriesByName();
         List<SerialModel> convertedSeries = new ArrayList<>();
-
-        Comparator<Series> compareByName = Comparator.comparing(Series::getName);
-        Collections.sort(allSeries, compareByName);
-
-        return new ResponseEntity<>(convertedSeries, HttpStatus.OK);
+        for (Series s : allSeries) {
+            convertedSeries.add(ConvertData.convertSeriesToSeriesModel(s));
+        }
+    return new ResponseEntity<>(convertedSeries, HttpStatus.OK);
     }
 
     /////////////////////////
     @GetMapping(value = "/series")
     public ResponseEntity<List<SerialModel>> SortSeriesByRating() {
-        List<Series> allSeries = seriesService.getAllSeries();
+        List<Series> allSeries = seriesService.SortSeriesByRating();
         List<SerialModel> convertedSeries = new ArrayList<>();
-
-        Comparator<Series> compareByRating = Comparator.comparing(Series::getRating);
-        Collections.sort(allSeries, compareByRating);
-
+        for (Series s : allSeries) {
+            convertedSeries.add(ConvertData.convertSeriesToSeriesModel(s));
+        }
         return new ResponseEntity<>(convertedSeries, HttpStatus.OK);
     }
 
     /////////////////////////
     @GetMapping(value = "/series")
     public ResponseEntity<List<SerialModel>> SortSeriesByStartYear() {
-        List<Series> allSeries = seriesService.getAllSeries();
+        List<Series> allSeries = seriesService.SortSeriesByStartYear();
         List<SerialModel> convertedSeries = new ArrayList<>();
-
-        Comparator<Series> compareByStartYear = Comparator.comparing(Series::getStartYear);
-        Collections.sort(allSeries, compareByStartYear);
-
+        for (Series s : allSeries) {
+            convertedSeries.add(ConvertData.convertSeriesToSeriesModel(s));
+        }
         return new ResponseEntity<>(convertedSeries, HttpStatus.OK);
     }
-
-
 
 }

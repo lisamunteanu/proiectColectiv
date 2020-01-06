@@ -44,62 +44,56 @@ public class MovieController {
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
     }
-    ////////////
+
+    //
     @GetMapping(value = "movies/{genre}")
     public ResponseEntity<List<MovieModel>> FilterMoviesByGenres(@PathVariable String genre) {
-        List<Movie> allMovies = movieService.findAllMovies();
+        List<Movie> allMovies = movieService.FilterMoviesByGenres(genre);
         List<MovieModel> convertedMovies = new ArrayList<>();
         for (Movie m : allMovies) {
-           if(m.getGenres().contains(genre)) {
-               convertedMovies.add(ConvertData.convertMovieToMovieModel(m));
-           }
+            convertedMovies.add(ConvertData.convertMovieToMovieModel(m));
         }
         return new ResponseEntity<>(convertedMovies, HttpStatus.OK);
     }
-    //////
+
     @GetMapping(value = "/movies")
     public ResponseEntity<List<MovieModel>> SortMoviesByAddedDate() {
-        List<Movie> allMovies = movieService.findAllMovies();
+        List<Movie> allMovies = movieService.SortMoviesByAddedDate();
         List<MovieModel> convertedMovies = new ArrayList<>();
-
-        Comparator<Movie>  compareByAddedDate = Comparator.comparing(Movie :: getAddedDate);
-        Collections.sort(allMovies, compareByAddedDate);
-        //Collections.sort(allMovies, (p1, p2) -> Long.valueOf(p1.getAddedDate().getTime()).compareTo(p2.getAddedDate().getTime()));
-
-       return new ResponseEntity<>(convertedMovies, HttpStatus.OK);
+        for (Movie m : allMovies) {
+            convertedMovies.add(ConvertData.convertMovieToMovieModel(m));
+        }
+        return new ResponseEntity<>(convertedMovies, HttpStatus.OK);
     }
-    /////////////////////////
+
     @GetMapping(value = "/movies")
     public ResponseEntity<List<MovieModel>> SortMoviesByRating() {
-        List<Movie> allMovies = movieService.findAllMovies();
+        List<Movie> allMovies = movieService.SortMoviesByRating();
         List<MovieModel> convertedMovies = new ArrayList<>();
-
-        Comparator<Movie> compareByRating = Comparator.comparing(Movie::getRating);
-        Collections.sort(allMovies, compareByRating);
-
+        for (Movie m : allMovies) {
+            convertedMovies.add(ConvertData.convertMovieToMovieModel(m));
+        }
         return new ResponseEntity<>(convertedMovies, HttpStatus.OK);
     }
 
-    /////////////////////////
     @GetMapping(value = "/movies")
     public ResponseEntity<List<MovieModel>> SortMoviesByReleaseYear() {
-        List<Movie> allMovies = movieService.findAllMovies();
+        List<Movie> allMovies = movieService.SortMoviesByReleaseYear();
         List<MovieModel> convertedMovies = new ArrayList<>();
-
-        Comparator<Movie> compareByReleaseYear = Comparator.comparing(Movie::getReleaseYear);
-        Collections.sort(allMovies, compareByReleaseYear);
-
+        for (Movie m : allMovies) {
+            convertedMovies.add(ConvertData.convertMovieToMovieModel(m));
+        }
         return new ResponseEntity<>(convertedMovies, HttpStatus.OK);
     }
-    /////
+
+
     @GetMapping(value = "/movies")
     public ResponseEntity<List<MovieModel>> SortMoviesByName() {
-        List<Movie> allMovies = movieService.findAllMovies();
+        List<Movie> allMovies = movieService.SortMoviesByName();
         List<MovieModel> convertedMovies = new ArrayList<>();
-
-        Comparator<Movie> compareByName = Comparator.comparing(Movie::getName);
-        Collections.sort(allMovies, compareByName);
-
+        for (Movie m : allMovies) {
+            convertedMovies.add(ConvertData.convertMovieToMovieModel(m));
+        }
         return new ResponseEntity<>(convertedMovies, HttpStatus.OK);
     }
 

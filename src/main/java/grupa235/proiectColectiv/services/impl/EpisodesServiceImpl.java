@@ -10,6 +10,8 @@ import grupa235.proiectColectiv.services.EpisodesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -61,7 +63,11 @@ public class EpisodesServiceImpl implements EpisodesService {
 
     @Override
     public List<Episode> SortEpisodesByAddedDate() {
-        return this.episodesRepository.findAll();
+        List<Episode> allEpisodes = episodesRepository.findAll();
+        Comparator<Episode> compareByAddedDate = Comparator.comparing(Episode :: getAddedDate);
+        Collections.sort(allEpisodes, compareByAddedDate);
+        //Collections.sort(allMovies, (p1, p2) -> Long.valueOf(p1.getAddedDate().getTime()).compareTo(p2.getAddedDate().getTime()));
+        return allEpisodes;
     }
 
 }

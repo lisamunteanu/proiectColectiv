@@ -14,6 +14,10 @@ public interface SeriesService {
 
     Series updateSerial(Series serial) throws Exception;
 
+    List<Series> FilterSeriesByGenres(String genre);
+
+    List<Series> SortSeriesByName();
+
     List<Series> SortSeriesByRating();
 
     List<Series> SortSeriesByStartYear();
