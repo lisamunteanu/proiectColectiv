@@ -1,0 +1,96 @@
+package grupa235.proiectColectiv.frontendModel;
+
+import java.io.Serializable;
+
+public class SerialDetails implements Serializable {
+
+    private String name;
+    private String image;
+    private Integer noOfSeasons;
+    private Integer noOfEpisodes;
+    private String genres;
+    private String director;
+    private String releaseYear;
+
+    public SerialDetails(String name, String image,Integer noOfSeasons,Integer noOfEpisodes,String genres, String director, String releaseYear) {
+        this.name = name;
+        this.image = image;
+        this.noOfSeasons = noOfSeasons;
+        this.noOfEpisodes= noOfEpisodes;
+        this.genres = genres;
+        this.director = director;
+        this.releaseYear = releaseYear;
+    }
+
+    public SerialDetails() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Integer getNoOfSeasons() {
+        return noOfSeasons;
+    }
+
+    public void setNoOfSeasons(Integer noOfSeasons) {
+        this.noOfSeasons = noOfSeasons;
+    }
+
+    public String getGenres() {
+        return genres;
+    }
+
+    public void setGenres(String genres) {
+        this.genres = genres;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public String getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(String releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public Integer getNoOfEpisodes() {
+        return noOfEpisodes;
+    }
+
+    public void setNoOfEpisodes(Integer noOfEpisodes) {
+        this.noOfEpisodes = noOfEpisodes;
+    }
+
+    @Override
+    public String toString() {
+        return "SerialDetails{" +
+                "name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                ", noOfSeasons=" + noOfSeasons +
+                ", noOfEpisodes=" + noOfEpisodes +
+                ", genres='" + genres + '\'' +
+                ", director='" + director + '\'' +
+                ", releaseYear='" + releaseYear + '\'' +
+                '}';
+    }
+}

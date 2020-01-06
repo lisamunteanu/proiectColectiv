@@ -7,9 +7,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EpisodesRepository extends JpaRepository<Episode,Integer> {
     @Query(value = "select * from episodes e where e.id_season= :seasonId",nativeQuery = true)
     List<Episode> getAllEpisodeFromASeason(@Param("seasonId") String seasonId);
+
+    @Query(value= "select * from episodes e where e.name= :episodeName limit 1",nativeQuery = true)
+    Optional<Episode> getEpisodeByName(@Param("episodeName") String episodeName);
+
 }
