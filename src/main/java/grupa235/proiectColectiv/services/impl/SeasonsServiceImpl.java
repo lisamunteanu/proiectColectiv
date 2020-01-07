@@ -1,6 +1,7 @@
 package grupa235.proiectColectiv.services.impl;
 
 import grupa235.proiectColectiv.converter.ConvertData;
+import grupa235.proiectColectiv.frontendModel.SeasonDetails;
 import grupa235.proiectColectiv.frontendModel.SeasonModel;
 import grupa235.proiectColectiv.model.Season;
 import grupa235.proiectColectiv.model.Series;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SeasonsServiceImpl implements SeasonsService {
@@ -57,6 +59,18 @@ public class SeasonsServiceImpl implements SeasonsService {
             this.seasonsRepository.save(updatedSeason);
         }
         return updatedSeason;
+    }
+
+    @Override
+    public SeasonDetails getDetailsForASeason(String seasonName) {
+        SeasonDetails seasonDetails;
+        Optional<Season> season = this.seasonsRepository.getSeasonByName(seasonName);
+        if (season.isPresent()){
+            seasonDetails= ConvertData.convertSeasonToSeasonDetails(season.get());
+            seasonDetails.setNumberOfEpisodes(this.seasonsRepository.getNumberOfEpisodesForASeason(season.get().getId()));
+            return seasonDetails;
+        }
+        return null;
     }
 
 }
