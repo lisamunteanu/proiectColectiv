@@ -24,6 +24,8 @@ public class WatchLaterMovieId implements Serializable {
         this.user = user;
         this.movie = movie;
     }
+    public WatchLaterMovieId() {
+    }
 
     public RepoUser getUser() {
         return user;
