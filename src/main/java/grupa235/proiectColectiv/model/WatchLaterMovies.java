@@ -21,7 +21,6 @@ public class WatchLaterMovies implements Serializable {
         this.addedDate = addedDate;
     }
     public WatchLaterMovies(){
-
     }
 
     public WatchLaterMovieId getWatchLaterMovieId() {

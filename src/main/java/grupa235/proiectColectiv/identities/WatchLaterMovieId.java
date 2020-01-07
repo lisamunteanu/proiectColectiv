@@ -3,8 +3,9 @@ package grupa235.proiectColectiv.identities;
 import grupa235.proiectColectiv.model.Movie;
 import grupa235.proiectColectiv.model.RepoUser;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Objects;
@@ -12,12 +13,12 @@ import java.util.Objects;
 @Embeddable
 public class WatchLaterMovieId implements Serializable {
 
-    @ManyToOne
-    @Column(name="idUser",updatable = false, nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="idUser",updatable = false, nullable = false)
     private RepoUser user;
 
-    @ManyToOne
-    @Column(name = "idMovie", updatable = false, nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idMovie", updatable = false, nullable = false)
     private Movie movie;
 
     public WatchLaterMovieId(RepoUser user, Movie movie) {

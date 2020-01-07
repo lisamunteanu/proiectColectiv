@@ -3,21 +3,19 @@ package grupa235.proiectColectiv.identities;
 import grupa235.proiectColectiv.model.RepoUser;
 import grupa235.proiectColectiv.model.Series;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
 public class WatchLaterSeriesId implements Serializable {
 
-    @ManyToOne
-    @Column(name="idUser",updatable = false, nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="idUser",updatable = false, nullable = false)
     private RepoUser user;
 
-    @ManyToOne
-    @Column(name = "idSeries", updatable = false, nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idSeries", updatable = false, nullable = false)
     private Series series;
 
     public WatchLaterSeriesId(RepoUser user, Series series) {
