@@ -1,6 +1,8 @@
 package grupa235.proiectColectiv.model;
 
 
+import grupa235.proiectColectiv.identities.WatchLaterSeriesId;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -8,38 +10,22 @@ import java.time.LocalDateTime;
 @Table(name="series_watch_later")
 public class WatchLaterSeries {
     @EmbeddedId
-    @ManyToOne
-    @Column(name="idUser",updatable = false, nullable = false)
-    private RepoUser user;
-
-    @EmbeddedId
-    @ManyToOne
-    @Column(name = "idSeries", updatable = false, nullable = false)
-    private Series series;
+    private WatchLaterSeriesId watchLaterSeriesId;
 
     @Column(name="addedDate")
     private LocalDateTime addedDate;
 
-    public WatchLaterSeries(RepoUser user, Series series, LocalDateTime addedDate) {
-        this.user = user;
-        this.series = series;
+    public WatchLaterSeries(WatchLaterSeriesId watchLaterSeriesId, LocalDateTime addedDate) {
+        this.watchLaterSeriesId = watchLaterSeriesId;
         this.addedDate = addedDate;
     }
 
-    public RepoUser getUser() {
-        return user;
+    public WatchLaterSeriesId getWatchLaterSeriesId() {
+        return watchLaterSeriesId;
     }
 
-    public void setUser(RepoUser user) {
-        this.user = user;
-    }
-
-    public Series getSeries() {
-        return series;
-    }
-
-    public void setSeries(Series series) {
-        this.series = series;
+    public void setWatchLaterSeriesId(WatchLaterSeriesId watchLaterSeriesId) {
+        this.watchLaterSeriesId = watchLaterSeriesId;
     }
 
     public LocalDateTime getAddedDate() {

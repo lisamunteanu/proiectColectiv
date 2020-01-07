@@ -48,14 +48,12 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public WatchLaterMovies addWatchLaterMovie(RepoUser user, Integer movieId) {
+    public void addWatchLaterMovie(RepoUser user, Integer movieId) {
         Optional<Movie> movie = movieRepository.findById(movieId);
         if(movie.isPresent()){
             WatchLaterMovies watchLaterMovies = new WatchLaterMovies(new WatchLaterMovieId(user, movie.get()), LocalDateTime.now());
             watchLaterMoviesRepository.save(watchLaterMovies);
-            return watchLaterMovies;
         }
-        return null;
     }
 
     @Override
