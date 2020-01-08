@@ -3,10 +3,9 @@ package grupa235.proiectColectiv.services.impl;
 import grupa235.proiectColectiv.converter.ConvertData;
 import grupa235.proiectColectiv.frontendModel.SerialModel;
 import grupa235.proiectColectiv.identities.WatchLaterSeriesId;
-import grupa235.proiectColectiv.model.RepoUser;
-import grupa235.proiectColectiv.model.Series;
-import grupa235.proiectColectiv.model.WatchLaterSeries;
+import grupa235.proiectColectiv.model.*;
 import grupa235.proiectColectiv.repository.SeriesRepository;
+import grupa235.proiectColectiv.repository.UserRepository;
 import grupa235.proiectColectiv.repository.WatchLaterSeriesRepository;
 import grupa235.proiectColectiv.services.SeriesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +23,13 @@ public class SeriesServiceImpl implements SeriesService {
 
     private final SeriesRepository seriesRepository;
 
+    private final UserRepository userRepository;
+
     @Autowired
-    public SeriesServiceImpl(WatchLaterSeriesRepository watchLaterSeriesRepository, SeriesRepository seriesRepository) {
+    public SeriesServiceImpl(UserRepository userRepository, WatchLaterSeriesRepository watchLaterSeriesRepository, SeriesRepository seriesRepository) {
         this.watchLaterSeriesRepository = watchLaterSeriesRepository;
         this.seriesRepository = seriesRepository;
+        this.userRepository =userRepository;
     }
 
 
@@ -59,33 +61,53 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
     @Override
-    public List<Series> findAllWatchLaterSeriesForUser(RepoUser user) {
-        List<Series> seriesId =  watchLaterSeriesRepository.getAllSeriesByUser(user);
-        List<Series> movies= new ArrayList<>();
-//        moviesId.forEach(movieId -> {
-//                Optional<Movie> movie = movieRepository.findById(movieId);
-//            movie.ifPresent(movies::add);
-//        });
-        return movies;
+    public List<Series> findAllWatchLaterSeriesForUser(String username) {
+        RepoUser user = userRepository.findByUsername(username);
+        List<WatchLaterSeries> seriesIds =  watchLaterSeriesRepository.getAllSeriesByUser(user);
+        List<Series> series= new ArrayList<>();
+        seriesIds.forEach(seriesId -> {
+            series.add(seriesId.getWatchLaterSeriesId().getSeries());
+        });
+        return series;
     }
 
     @Override
-    public void addWatchLaterSeries(RepoUser user, Integer seriesId) {
+    public void addWatchLaterSeries(String username, Integer seriesId) {
+        RepoUser user = userRepository.findByUsername(username);
         Optional<Series> series = seriesRepository.findById(seriesId);
         if(series.isPresent()){
-            WatchLaterSeries watchLaterMovies = new WatchLaterSeries(new WatchLaterSeriesId(user, series.get()), LocalDateTime.now());
-            watchLaterSeriesRepository.save(watchLaterMovies);
+            WatchLaterSeries watchLaterSeries = new WatchLaterSeries(new WatchLaterSeriesId(user, series.get()), LocalDateTime.now());
+            watchLaterSeriesRepository.save(watchLaterSeries);
         }
 
     }
 
     @Override
-    public void deleteWatchLaterSeries(RepoUser user, Integer seriesId) {
+    public void deleteWatchLaterSeries(String username, Integer seriesId) {
+        RepoUser user = userRepository.findByUsername(username);
         Optional<Series> series = seriesRepository.findById(seriesId);
         if(series.isPresent()){
-            WatchLaterSeries watchLaterMovies = new WatchLaterSeries(new WatchLaterSeriesId(user, series.get()), LocalDateTime.now());
-            watchLaterSeriesRepository.delete(watchLaterMovies);
+            WatchLaterSeries watchLaterSeries = new WatchLaterSeries(new WatchLaterSeriesId(user, series.get()), LocalDateTime.now());
+            watchLaterSeriesRepository.delete(watchLaterSeries);
         }
     }
 
+    @Override
+    public Boolean watchLaterSeries(String username, Integer seriesId) {
+        RepoUser user = userRepository.findByUsername(username);
+        Optional<Series> series = seriesRepository.findById(seriesId);
+        if (series.isPresent()){
+            Optional<WatchLaterSeries> watchLaterSeriesOptional = watchLaterSeriesRepository.findById(new WatchLaterSeriesId(user,series.get()));
+            if(watchLaterSeriesOptional.isPresent()) {
+                watchLaterSeriesRepository.delete(watchLaterSeriesOptional.get());
+                return false;
+            }
+            else {
+                WatchLaterSeries watchLaterSeries = new WatchLaterSeries(new WatchLaterSeriesId(user, series.get()), LocalDateTime.now());
+                watchLaterSeriesRepository.save(watchLaterSeries);
+                return true;
+            }
+        }
+        return false;
+    }
 }

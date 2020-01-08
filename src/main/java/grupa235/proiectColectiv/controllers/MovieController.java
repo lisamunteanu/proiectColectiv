@@ -1,12 +1,16 @@
 package grupa235.proiectColectiv.controllers;
 
 import grupa235.proiectColectiv.converter.ConvertData;
+import grupa235.proiectColectiv.frontendModel.BooleanModel;
 import grupa235.proiectColectiv.frontendModel.MovieModel;
 import grupa235.proiectColectiv.model.Movie;
 import grupa235.proiectColectiv.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -45,5 +49,26 @@ public class MovieController {
         }
     }
 
+    @GetMapping(value = "movies/watch-later")
+    public ResponseEntity<List<MovieModel>> findAllWatchLaterMovies(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
+        String username = currentPrincipalName.getUsername();
+        List<Movie> allMovies = movieService.findAllWatchLaterForUser(username);
+        List<MovieModel> convertedMovies = new ArrayList<>();
+        for (Movie m : allMovies) {
+            convertedMovies.add(ConvertData.convertMovieToMovieModel(m));
+        }
+        return new ResponseEntity<>(convertedMovies, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "movies/{id}/watch-later")
+    public ResponseEntity<?> addWatchLaterMovie(@PathVariable String id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
+        String username = currentPrincipalName.getUsername();
+        Boolean status = this.movieService.watchLaterMovie(username, Integer.parseInt(id));
+        return new ResponseEntity<>(new BooleanModel(status),HttpStatus.OK);
+    }
 
 }

@@ -1,7 +1,6 @@
 package grupa235.proiectColectiv.services;
 
 import grupa235.proiectColectiv.frontendModel.SerialModel;
-import grupa235.proiectColectiv.model.RepoUser;
 import grupa235.proiectColectiv.model.Series;
 
 import java.util.List;
@@ -15,9 +14,11 @@ public interface SeriesService {
 
     Series updateSerial(Series serial) throws Exception;
 
-    List<Series> findAllWatchLaterSeriesForUser(RepoUser user);
+    List<Series> findAllWatchLaterSeriesForUser(String username);
 
-    void addWatchLaterSeries(RepoUser user, Integer seriesId);
+    void addWatchLaterSeries(String username, Integer seriesId);
 
-    void deleteWatchLaterSeries(RepoUser user, Integer seriesId);
+    void deleteWatchLaterSeries(String username, Integer seriesId);
+
+    Boolean watchLaterSeries(String username, Integer movieId);
 }

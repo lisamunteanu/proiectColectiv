@@ -23,6 +23,9 @@ public class WatchLaterSeriesId implements Serializable {
         this.series = series;
     }
 
+    public WatchLaterSeriesId() {
+    }
+
     public RepoUser getUser() {
         return user;
     }
@@ -31,13 +34,14 @@ public class WatchLaterSeriesId implements Serializable {
         this.user = user;
     }
 
-    public Series getMovie() {
+    public Series getSeries() {
         return series;
     }
 
-    public void setMovie(Series movie) {
-        this.series = movie;
+    public void setSeries(Series series) {
+        this.series = series;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

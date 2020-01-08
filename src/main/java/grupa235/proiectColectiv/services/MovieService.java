@@ -1,7 +1,6 @@
 package grupa235.proiectColectiv.services;
 
 import grupa235.proiectColectiv.model.Movie;
-import grupa235.proiectColectiv.model.RepoUser;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,9 +10,11 @@ public interface MovieService {
 
     Optional<Movie> findById(Integer id);
 
-    List<Movie> findAllWatchLaterForUser(RepoUser user);
+    List<Movie> findAllWatchLaterForUser(String username);
 
-    void addWatchLaterMovie(RepoUser user, Integer movieId);
+    void addWatchLaterMovie(String username, Integer movieId);
 
-    void deleteWatchLaterMovie(RepoUser user, Integer movieId);
+    void deleteWatchLaterMovie(String username, Integer movieId);
+
+    Boolean watchLaterMovie(String username, Integer movieId);
 }

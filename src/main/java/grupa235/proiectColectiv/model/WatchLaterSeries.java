@@ -20,6 +20,9 @@ public class WatchLaterSeries {
         this.addedDate = addedDate;
     }
 
+    public WatchLaterSeries() {
+    }
+
     public WatchLaterSeriesId getWatchLaterSeriesId() {
         return watchLaterSeriesId;
     }
