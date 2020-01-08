@@ -1,5 +1,6 @@
 package grupa235.proiectColectiv.services;
 
+import grupa235.proiectColectiv.frontendModel.MovieDetails;
 import grupa235.proiectColectiv.model.Movie;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface MovieService {
     void deleteWatchLaterMovie(String username, Integer movieId);
 
     Boolean watchLaterMovie(String username, Integer movieId);
+
+    MovieDetails getDetailsForAMovie(String movieName);
 }

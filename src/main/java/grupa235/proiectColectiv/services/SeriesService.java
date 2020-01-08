@@ -1,5 +1,6 @@
 package grupa235.proiectColectiv.services;
 
+import grupa235.proiectColectiv.frontendModel.SerialDetails;
 import grupa235.proiectColectiv.frontendModel.SerialModel;
 import grupa235.proiectColectiv.model.Series;
 
@@ -21,4 +22,6 @@ public interface SeriesService {
     void deleteWatchLaterSeries(String username, Integer seriesId);
 
     Boolean watchLaterSeries(String username, Integer movieId);
+
+    SerialDetails getDetailsForASerial(String serialName);
 }

@@ -2,6 +2,8 @@ package grupa235.proiectColectiv.controllers;
 
 import grupa235.proiectColectiv.converter.ConvertData;
 import grupa235.proiectColectiv.frontendModel.BooleanModel;
+import grupa235.proiectColectiv.frontendModel.Message;
+import grupa235.proiectColectiv.frontendModel.MovieDetails;
 import grupa235.proiectColectiv.frontendModel.MovieModel;
 import grupa235.proiectColectiv.model.Movie;
 import grupa235.proiectColectiv.services.MovieService;
@@ -49,6 +51,14 @@ public class MovieController {
         }
     }
 
+    @GetMapping(value = "movies/details/{movieName}")
+    public ResponseEntity<?> getDetailsForAMovie(@PathVariable String movieName){
+        MovieDetails movieDetails = this.movieService.getDetailsForAMovie(movieName);
+        if (movieDetails!=null){
+            return new ResponseEntity<>(movieDetails,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new Message("There is not a movie with this name!"),HttpStatus.BAD_REQUEST);
+    }
     @GetMapping(value = "movies/watch-later")
     public ResponseEntity<List<MovieModel>> findAllWatchLaterMovies(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

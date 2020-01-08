@@ -1,5 +1,6 @@
 package grupa235.proiectColectiv.services;
 
+import grupa235.proiectColectiv.frontendModel.EpisodeDetails;
 import grupa235.proiectColectiv.frontendModel.EpisodeModel;
 import grupa235.proiectColectiv.model.Episode;
 
@@ -15,4 +16,6 @@ public interface EpisodesService {
     Episode addEpisode(EpisodeModel episodeModel) throws Exception;
 
     Episode updateEpisode(Episode episode) throws Exception;
+
+    EpisodeDetails getDetailsForAEpisode(String episodeName);
 }

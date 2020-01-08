@@ -1,9 +1,12 @@
 package grupa235.proiectColectiv.services.impl;
 
 import grupa235.proiectColectiv.converter.ConvertData;
+import grupa235.proiectColectiv.frontendModel.SerialDetails;
 import grupa235.proiectColectiv.frontendModel.SerialModel;
 import grupa235.proiectColectiv.identities.WatchLaterSeriesId;
 import grupa235.proiectColectiv.model.*;
+import grupa235.proiectColectiv.model.Series;
+import grupa235.proiectColectiv.repository.SeasonsRepository;
 import grupa235.proiectColectiv.repository.SeriesRepository;
 import grupa235.proiectColectiv.repository.UserRepository;
 import grupa235.proiectColectiv.repository.WatchLaterSeriesRepository;
@@ -22,14 +25,16 @@ public class SeriesServiceImpl implements SeriesService {
     private final WatchLaterSeriesRepository watchLaterSeriesRepository;
 
     private final SeriesRepository seriesRepository;
+    private final SeasonsRepository seasonsRepository;
 
     private final UserRepository userRepository;
 
     @Autowired
-    public SeriesServiceImpl(UserRepository userRepository, WatchLaterSeriesRepository watchLaterSeriesRepository, SeriesRepository seriesRepository) {
+    public SeriesServiceImpl(UserRepository userRepository, WatchLaterSeriesRepository watchLaterSeriesRepository, SeriesRepository seriesRepository,SeasonsRepository seasonsRepository) {
         this.watchLaterSeriesRepository = watchLaterSeriesRepository;
         this.seriesRepository = seriesRepository;
         this.userRepository =userRepository;
+        this.seasonsRepository=seasonsRepository;
     }
 
 
@@ -110,4 +115,15 @@ public class SeriesServiceImpl implements SeriesService {
         }
         return false;
     }
+    @Override
+    public SerialDetails getDetailsForASerial(String serialName) {
+        SerialDetails serialDetails;
+        Optional<Series> serial = this.seriesRepository.getSerialByName(serialName);
+        if (serial.isPresent()){
+            serialDetails = ConvertData.convertSerialToSerialDetails(serial.get());
+            return serialDetails;
+        }
+        return null;
+    }
+
 }

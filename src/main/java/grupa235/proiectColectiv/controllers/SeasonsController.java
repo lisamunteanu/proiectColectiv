@@ -1,5 +1,7 @@
 package grupa235.proiectColectiv.controllers;
 
+import grupa235.proiectColectiv.frontendModel.Message;
+import grupa235.proiectColectiv.frontendModel.SeasonDetails;
 import grupa235.proiectColectiv.frontendModel.SeasonModel;
 import grupa235.proiectColectiv.model.Season;
 import grupa235.proiectColectiv.services.impl.SeasonsServiceImpl;
@@ -65,4 +67,12 @@ public class SeasonsController {
         }
     }
 
+    @GetMapping({"/seasons/details/{seasonName}"})
+    public ResponseEntity<?> getDetailsForASeason(@PathVariable String seasonName){
+        SeasonDetails seasonDetails = this.seasonsService.getDetailsForASeason(seasonName);
+        if (seasonDetails!=null){
+            return new ResponseEntity<>(seasonDetails,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new Message("There is no a season available!"),HttpStatus.BAD_REQUEST);
+    }
 }

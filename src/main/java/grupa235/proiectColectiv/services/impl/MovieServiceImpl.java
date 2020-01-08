@@ -1,6 +1,8 @@
 package grupa235.proiectColectiv.services.impl;
 
 import grupa235.proiectColectiv.identities.WatchLaterMovieId;
+import grupa235.proiectColectiv.converter.ConvertData;
+import grupa235.proiectColectiv.frontendModel.MovieDetails;
 import grupa235.proiectColectiv.model.Movie;
 import grupa235.proiectColectiv.model.RepoUser;
 import grupa235.proiectColectiv.model.WatchLaterMovies;
@@ -87,5 +89,16 @@ public class MovieServiceImpl implements MovieService {
             }
         }
         return false;
+    }
+
+    @Override
+    public MovieDetails getDetailsForAMovie(String movieName) {
+        Optional<Movie> movie = this.movieRepository.getMovieByName(movieName);
+        MovieDetails movieDetails;
+        if (movie.isPresent()){
+            movieDetails = ConvertData.convertMovieToMovieDetails(movie.get());
+            return movieDetails;
+        }
+        return null;
     }
 }
