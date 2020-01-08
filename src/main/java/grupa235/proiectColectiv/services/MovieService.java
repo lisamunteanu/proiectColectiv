@@ -20,4 +20,8 @@ public interface MovieService {
     Boolean watchLaterMovie(String username, Integer movieId);
 
     MovieDetails getDetailsForAMovie(String movieName);
+
+    List<Movie> findAllMovieHistoryForUser(String username);
+
+    Boolean movieMovieHistory(String username, Integer movieId);
 }

@@ -1,11 +1,14 @@
 package grupa235.proiectColectiv.services.impl;
 
+import grupa235.proiectColectiv.identities.MovieHistoryId;
 import grupa235.proiectColectiv.identities.WatchLaterMovieId;
 import grupa235.proiectColectiv.converter.ConvertData;
 import grupa235.proiectColectiv.frontendModel.MovieDetails;
 import grupa235.proiectColectiv.model.Movie;
+import grupa235.proiectColectiv.model.MovieHistory;
 import grupa235.proiectColectiv.model.RepoUser;
 import grupa235.proiectColectiv.model.WatchLaterMovies;
+import grupa235.proiectColectiv.repository.MovieHistoryRepository;
 import grupa235.proiectColectiv.repository.MovieRepository;
 import grupa235.proiectColectiv.repository.UserRepository;
 import grupa235.proiectColectiv.repository.WatchLaterMoviesRepository;
@@ -23,12 +26,14 @@ public class MovieServiceImpl implements MovieService {
     private final WatchLaterMoviesRepository watchLaterMoviesRepository;
     private final MovieRepository movieRepository;
     private final UserRepository  userRepository;
+    private final MovieHistoryRepository movieHistoryRepository;
 
     @Autowired
-    public MovieServiceImpl(UserRepository  userRepository, WatchLaterMoviesRepository watchLaterMoviesRepository, MovieRepository movieRepository) {
+    public MovieServiceImpl(UserRepository userRepository, WatchLaterMoviesRepository watchLaterMoviesRepository, MovieRepository movieRepository, MovieHistoryRepository movieHistoryRepository) {
         this.watchLaterMoviesRepository = watchLaterMoviesRepository;
         this.movieRepository = movieRepository;
         this.userRepository = userRepository;
+        this.movieHistoryRepository = movieHistoryRepository;
     }
 
     @Override
@@ -100,5 +105,35 @@ public class MovieServiceImpl implements MovieService {
             return movieDetails;
         }
         return null;
+    }
+
+    @Override
+    public List<Movie> findAllMovieHistoryForUser(String username) {
+        RepoUser user = userRepository.findByUsername(username);
+        List<MovieHistory> moviesId =  movieHistoryRepository.getAllMoviesByUser(user);
+        List<Movie> movies= new ArrayList<>();
+        moviesId.forEach(movieId -> {
+            movies.add(movieId.getMovieHistoryId().getMovie());
+        });
+        return movies;
+    }
+
+    @Override
+    public Boolean movieMovieHistory(String username, Integer movieId) {
+        RepoUser user = userRepository.findByUsername(username);
+        Optional<Movie> movie = movieRepository.findById(movieId);
+        if (movie.isPresent()){
+            Optional<MovieHistory> movieHistoryOptional = movieHistoryRepository.findById(new MovieHistoryId(user,movie.get()));
+            if(movieHistoryOptional.isPresent()) {
+                movieHistoryRepository.delete(movieHistoryOptional.get());
+                return false;
+            }
+            else {
+                MovieHistory movieHistory = new MovieHistory(new MovieHistoryId(user, movie.get()), LocalDateTime.now(), null);
+                movieHistoryRepository.save(movieHistory);
+                return true;
+            }
+        }
+        return false;
     }
 }

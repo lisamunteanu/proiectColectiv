@@ -73,11 +73,33 @@ public class MovieController {
     }
 
     @PostMapping(value = "movies/{id}/watch-later")
-    public ResponseEntity<?> addWatchLaterMovie(@PathVariable String id){
+    public ResponseEntity<?> modifyWatchLaterMovie(@PathVariable String id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
         String username = currentPrincipalName.getUsername();
         Boolean status = this.movieService.watchLaterMovie(username, Integer.parseInt(id));
+        return new ResponseEntity<>(new BooleanModel(status),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "movies/history")
+    public ResponseEntity<List<MovieModel>> findAllMovieHistory(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
+        String username = currentPrincipalName.getUsername();
+        List<Movie> allMovies = movieService.findAllMovieHistoryForUser(username);
+        List<MovieModel> convertedMovies = new ArrayList<>();
+        for (Movie m : allMovies) {
+            convertedMovies.add(ConvertData.convertMovieToMovieModel(m));
+        }
+        return new ResponseEntity<>(convertedMovies, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "movies/{id}/history")
+    public ResponseEntity<?> modifyMovieHistory(@PathVariable String id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
+        String username = currentPrincipalName.getUsername();
+        Boolean status = this.movieService.movieMovieHistory(username, Integer.parseInt(id));
         return new ResponseEntity<>(new BooleanModel(status),HttpStatus.OK);
     }
 
