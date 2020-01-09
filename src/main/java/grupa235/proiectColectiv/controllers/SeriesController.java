@@ -1,5 +1,7 @@
 package grupa235.proiectColectiv.controllers;
 
+import grupa235.proiectColectiv.frontendModel.Message;
+import grupa235.proiectColectiv.frontendModel.SerialDetails;
 import grupa235.proiectColectiv.frontendModel.SerialModel;
 import grupa235.proiectColectiv.model.Series;
 import grupa235.proiectColectiv.services.impl.SeriesServiceImpl;
@@ -53,5 +55,14 @@ public class SeriesController {
         } catch (Exception ex){
             return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping(value = "/series/details/{serialName}")
+    public ResponseEntity<?> getDetailsForASerial(@PathVariable String serialName){
+        SerialDetails serialDetails = this.seriesService.getDetailsForASerial(serialName);
+        if (serialDetails!=null){
+            return new ResponseEntity<>(serialDetails, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new Message("This serial does not exist!"),HttpStatus.BAD_REQUEST);
     }
 }

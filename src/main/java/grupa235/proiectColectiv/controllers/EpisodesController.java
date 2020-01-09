@@ -1,6 +1,8 @@
 package grupa235.proiectColectiv.controllers;
 
+import grupa235.proiectColectiv.frontendModel.EpisodeDetails;
 import grupa235.proiectColectiv.frontendModel.EpisodeModel;
+import grupa235.proiectColectiv.frontendModel.Message;
 import grupa235.proiectColectiv.model.Episode;
 import grupa235.proiectColectiv.services.impl.EpisodesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,5 +66,14 @@ public class EpisodesController {
         } catch (Exception ex){
             return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping({"/episodes/details/{episodeName}"})
+    public ResponseEntity<?> getDetailsForAEpisode(@PathVariable String episodeName){
+        EpisodeDetails episodeDetails = this.episodesService.getDetailsForAEpisode(episodeName);
+        if (episodeDetails != null){
+            return new ResponseEntity<>(episodeDetails,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new Message("There is no episodes available with this name!"),HttpStatus.BAD_REQUEST);
     }
 }

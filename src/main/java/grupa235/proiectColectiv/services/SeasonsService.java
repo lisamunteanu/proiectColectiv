@@ -1,5 +1,6 @@
 package grupa235.proiectColectiv.services;
 
+import grupa235.proiectColectiv.frontendModel.SeasonDetails;
 import grupa235.proiectColectiv.frontendModel.SeasonModel;
 import grupa235.proiectColectiv.model.Season;
 
@@ -15,4 +16,6 @@ public interface SeasonsService{
     Season addSeason(SeasonModel seasonModel) throws Exception;
 
     Season updateSeason(Season season) throws Exception;
+
+    SeasonDetails getDetailsForASeason(String seasonName);
 }
