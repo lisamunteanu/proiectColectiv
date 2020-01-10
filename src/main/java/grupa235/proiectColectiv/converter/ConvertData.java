@@ -1,10 +1,7 @@
 package grupa235.proiectColectiv.converter;
 
 import grupa235.proiectColectiv.frontendModel.*;
-import grupa235.proiectColectiv.model.Episode;
-import grupa235.proiectColectiv.model.Movie;
-import grupa235.proiectColectiv.model.Season;
-import grupa235.proiectColectiv.model.Series;
+import grupa235.proiectColectiv.model.*;
 
 import java.time.LocalDate;
 
@@ -103,4 +100,9 @@ public class ConvertData {
         return episodeDetails;
     }
 
+    public static Image convertUserImageToImage(UserImage userImage){
+        Image image = new Image();
+        image.setImage(userImage.getImage());
+        return image;
+    }
 }
