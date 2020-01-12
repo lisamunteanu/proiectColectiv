@@ -1,7 +1,12 @@
 package grupa235.proiectColectiv.frontendModel;
 
-public class BooleanModel {
+import java.io.Serializable;
+
+public class BooleanModel implements Serializable {
     private Boolean status;
+
+    public BooleanModel() {
+    }
 
     public BooleanModel(Boolean status) {
         this.status = status;

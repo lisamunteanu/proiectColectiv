@@ -1,10 +1,7 @@
 package grupa235.proiectColectiv.controllers;
 
 import grupa235.proiectColectiv.converter.ConvertData;
-import grupa235.proiectColectiv.frontendModel.BooleanModel;
-import grupa235.proiectColectiv.frontendModel.Message;
-import grupa235.proiectColectiv.frontendModel.MovieDetails;
-import grupa235.proiectColectiv.frontendModel.MovieModel;
+import grupa235.proiectColectiv.frontendModel.*;
 import grupa235.proiectColectiv.model.Movie;
 import grupa235.proiectColectiv.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +26,13 @@ public class MovieController {
     MovieService movieService;
 
     @GetMapping(value = "/movies")
-    public ResponseEntity<List<MovieModel>> findAllMovies() {
+    public ResponseEntity<List<Movie>> findAllMovies() {
         List<Movie> allMovies = movieService.findAllMovies();
         List<MovieModel> convertedMovies = new ArrayList<>();
         for (Movie m : allMovies) {
             convertedMovies.add(ConvertData.convertMovieToMovieModel(m));
         }
-        return new ResponseEntity<>(convertedMovies, HttpStatus.OK);
+        return new ResponseEntity<>(allMovies, HttpStatus.OK);
     }
 
     @GetMapping(value = "movies/{id}")
@@ -51,7 +48,7 @@ public class MovieController {
         }
     }
 
-    @GetMapping(value = "movies/details/{movieName}")
+    @GetMapping(value = "movies/details/{movieName}/")
     public ResponseEntity<?> getDetailsForAMovie(@PathVariable String movieName){
         MovieDetails movieDetails = this.movieService.getDetailsForAMovie(movieName);
         if (movieDetails!=null){
@@ -99,7 +96,16 @@ public class MovieController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
         String username = currentPrincipalName.getUsername();
-        Boolean status = this.movieService.movieMovieHistory(username, Integer.parseInt(id));
+        Boolean status = this.movieService.movieHistory(username, Integer.parseInt(id));
+        return new ResponseEntity<>(new BooleanModel(status),HttpStatus.OK);
+    }
+
+    @PostMapping(value = "movies/{id}/rate")
+    public ResponseEntity<?> modifyMovieRating(@PathVariable String id, @RequestBody RateModel rating){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
+        String username = currentPrincipalName.getUsername();
+        Boolean status = this.movieService.setMovieRating(username, Integer.parseInt(id),rating.getRating());
         return new ResponseEntity<>(new BooleanModel(status),HttpStatus.OK);
     }
 

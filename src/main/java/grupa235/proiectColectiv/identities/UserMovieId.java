@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class WatchLaterMovieId implements Serializable {
+public class UserMovieId implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="idUser",updatable = false, nullable = false)
@@ -21,11 +21,11 @@ public class WatchLaterMovieId implements Serializable {
     @JoinColumn(name = "idMovie", updatable = false, nullable = false)
     private Movie movie;
 
-    public WatchLaterMovieId(RepoUser user, Movie movie) {
+    public UserMovieId(RepoUser user, Movie movie) {
         this.user = user;
         this.movie = movie;
     }
-    public WatchLaterMovieId() {
+    public UserMovieId() {
     }
 
     public RepoUser getUser() {
@@ -47,7 +47,7 @@ public class WatchLaterMovieId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        WatchLaterMovieId that = (WatchLaterMovieId) o;
+        UserMovieId that = (UserMovieId) o;
         return user==that.user &&
                 movie==that.movie;
     }

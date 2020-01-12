@@ -13,15 +13,13 @@ public interface MovieService {
 
     List<Movie> findAllWatchLaterForUser(String username);
 
-    void addWatchLaterMovie(String username, Integer movieId);
-
-    void deleteWatchLaterMovie(String username, Integer movieId);
-
     Boolean watchLaterMovie(String username, Integer movieId);
 
     MovieDetails getDetailsForAMovie(String movieName);
 
     List<Movie> findAllMovieHistoryForUser(String username);
 
-    Boolean movieMovieHistory(String username, Integer movieId);
+    Boolean movieHistory(String username, Integer movieId);
+
+    Boolean setMovieRating(String username, Integer movieId, Integer rating);
 }

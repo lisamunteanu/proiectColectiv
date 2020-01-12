@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class WatchLaterSeriesId implements Serializable {
+public class UserSeriesId implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="idUser",updatable = false, nullable = false)
@@ -18,12 +18,12 @@ public class WatchLaterSeriesId implements Serializable {
     @JoinColumn(name = "idSeries", updatable = false, nullable = false)
     private Series series;
 
-    public WatchLaterSeriesId(RepoUser user, Series series) {
+    public UserSeriesId(RepoUser user, Series series) {
         this.user = user;
         this.series = series;
     }
 
-    public WatchLaterSeriesId() {
+    public UserSeriesId() {
     }
 
     public RepoUser getUser() {
@@ -46,7 +46,7 @@ public class WatchLaterSeriesId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        WatchLaterSeriesId that = (WatchLaterSeriesId) o;
+        UserSeriesId that = (UserSeriesId) o;
         return user==that.user &&
                 series==that.series;
     }

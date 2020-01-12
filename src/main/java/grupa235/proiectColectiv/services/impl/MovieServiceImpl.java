@@ -1,17 +1,14 @@
 package grupa235.proiectColectiv.services.impl;
 
-import grupa235.proiectColectiv.identities.MovieHistoryId;
-import grupa235.proiectColectiv.identities.WatchLaterMovieId;
 import grupa235.proiectColectiv.converter.ConvertData;
 import grupa235.proiectColectiv.frontendModel.MovieDetails;
+import grupa235.proiectColectiv.identities.UserMovieId;
 import grupa235.proiectColectiv.model.Movie;
-import grupa235.proiectColectiv.model.MovieHistory;
 import grupa235.proiectColectiv.model.RepoUser;
-import grupa235.proiectColectiv.model.WatchLaterMovies;
-import grupa235.proiectColectiv.repository.MovieHistoryRepository;
+import grupa235.proiectColectiv.model.UserMovies;
 import grupa235.proiectColectiv.repository.MovieRepository;
+import grupa235.proiectColectiv.repository.UserMovieRepository;
 import grupa235.proiectColectiv.repository.UserRepository;
-import grupa235.proiectColectiv.repository.WatchLaterMoviesRepository;
 import grupa235.proiectColectiv.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,17 +20,15 @@ import java.util.Optional;
 
 @Service
 public class MovieServiceImpl implements MovieService {
-    private final WatchLaterMoviesRepository watchLaterMoviesRepository;
+    private final UserMovieRepository userMovieRepository;
     private final MovieRepository movieRepository;
     private final UserRepository  userRepository;
-    private final MovieHistoryRepository movieHistoryRepository;
 
     @Autowired
-    public MovieServiceImpl(UserRepository userRepository, WatchLaterMoviesRepository watchLaterMoviesRepository, MovieRepository movieRepository, MovieHistoryRepository movieHistoryRepository) {
-        this.watchLaterMoviesRepository = watchLaterMoviesRepository;
+    public MovieServiceImpl(UserRepository userRepository, UserMovieRepository userMovieRepository, MovieRepository movieRepository) {
+        this.userMovieRepository = userMovieRepository;
         this.movieRepository = movieRepository;
         this.userRepository = userRepository;
-        this.movieHistoryRepository = movieHistoryRepository;
     }
 
     @Override
@@ -49,32 +44,12 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> findAllWatchLaterForUser(String username) {
         RepoUser user = userRepository.findByUsername(username);
-        List<WatchLaterMovies> moviesId =  watchLaterMoviesRepository.getAllMoviesByUser(user);
+        List<UserMovies> moviesId =  userMovieRepository.getAllWatchLaterMoviesByUser(user);
         List<Movie> movies= new ArrayList<>();
         moviesId.forEach(movieId -> {
-                movies.add(movieId.getWatchLaterMovieId().getMovie());
+                movies.add(movieId.getUserMovieId().getMovie());
         });
         return movies;
-    }
-
-    @Override
-    public void addWatchLaterMovie(String username, Integer movieId) {
-        RepoUser user = userRepository.findByUsername(username);
-        Optional<Movie> movie = movieRepository.findById(movieId);
-        if(movie.isPresent()){
-            WatchLaterMovies watchLaterMovies = new WatchLaterMovies(new WatchLaterMovieId(user, movie.get()), LocalDateTime.now());
-            watchLaterMoviesRepository.save(watchLaterMovies);
-        }
-    }
-
-    @Override
-    public void deleteWatchLaterMovie(String username, Integer movieId) {
-        RepoUser user = userRepository.findByUsername(username);
-        Optional<Movie> movie = movieRepository.findById(movieId);
-        if (movie.isPresent()){
-        WatchLaterMovies watchLaterMovies = watchLaterMoviesRepository.findById(new WatchLaterMovieId(user,movie.get())).get();
-        watchLaterMoviesRepository.delete(watchLaterMovies);
-        }
     }
 
     @Override
@@ -82,14 +57,23 @@ public class MovieServiceImpl implements MovieService {
         RepoUser user = userRepository.findByUsername(username);
         Optional<Movie> movie = movieRepository.findById(movieId);
         if (movie.isPresent()){
-            Optional<WatchLaterMovies> watchLaterMovieExists = watchLaterMoviesRepository.findById(new WatchLaterMovieId(user,movie.get()));
+            Optional<UserMovies> watchLaterMovieExists = userMovieRepository.findById(new UserMovieId(user,movie.get()));
             if(watchLaterMovieExists.isPresent()) {
-                watchLaterMoviesRepository.delete(watchLaterMovieExists.get());
-                return false;
+                UserMovies userMovies = watchLaterMovieExists.get();
+                if(userMovies.getWatchLater()) {
+                    userMovies.setWatchLater(false);
+                    userMovies.setAddedDate(null);
+                }
+                else {
+                    userMovies.setWatchLater(true);
+                    userMovies.setAddedDate(LocalDateTime.now());
+                }
+                this.userMovieRepository.save(userMovies);
+                return userMovies.getWatchLater();
             }
             else {
-                WatchLaterMovies watchLaterMovies = new WatchLaterMovies(new WatchLaterMovieId(user, movie.get()), LocalDateTime.now());
-                watchLaterMoviesRepository.save(watchLaterMovies);
+                UserMovies userMovies = new UserMovies(new UserMovieId(user, movie.get()), LocalDateTime.now(), true, null, false, 0);
+                userMovieRepository.save(userMovies);
                 return true;
             }
         }
@@ -110,30 +94,61 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> findAllMovieHistoryForUser(String username) {
         RepoUser user = userRepository.findByUsername(username);
-        List<MovieHistory> moviesId =  movieHistoryRepository.getAllMoviesByUser(user);
+        List<UserMovies> moviesId =  userMovieRepository.getAllHistoryMoviesByUser(user);
         List<Movie> movies= new ArrayList<>();
         moviesId.forEach(movieId -> {
-            movies.add(movieId.getMovieHistoryId().getMovie());
+            movies.add(movieId.getUserMovieId().getMovie());
         });
         return movies;
     }
 
     @Override
-    public Boolean movieMovieHistory(String username, Integer movieId) {
+    public Boolean movieHistory(String username, Integer movieId) {
         RepoUser user = userRepository.findByUsername(username);
         Optional<Movie> movie = movieRepository.findById(movieId);
         if (movie.isPresent()){
-            Optional<MovieHistory> movieHistoryOptional = movieHistoryRepository.findById(new MovieHistoryId(user,movie.get()));
-            if(movieHistoryOptional.isPresent()) {
-                movieHistoryRepository.delete(movieHistoryOptional.get());
-                return false;
+            Optional<UserMovies> watchLaterMovieExists = userMovieRepository.findById(new UserMovieId(user,movie.get()));
+            if(watchLaterMovieExists.isPresent()) {
+                UserMovies userMovies = watchLaterMovieExists.get();
+                if(userMovies.getHistory()) {
+                    userMovies.setHistory(false);
+                    userMovies.setWatchedDate(null);
+                }
+                else {
+                    userMovies.setHistory(true);
+                    userMovies.setWatchedDate(LocalDateTime.now());
+                }
+                this.userMovieRepository.save(userMovies);
+                return userMovies.getHistory();
             }
             else {
-                MovieHistory movieHistory = new MovieHistory(new MovieHistoryId(user, movie.get()), LocalDateTime.now(), null);
-                movieHistoryRepository.save(movieHistory);
+                UserMovies userMovies = new UserMovies(new UserMovieId(user, movie.get()), null, false, LocalDateTime.now(), true, 0);
+                userMovieRepository.save(userMovies);
                 return true;
             }
         }
         return false;
     }
+
+    @Override
+    public Boolean setMovieRating(String username, Integer movieId, Integer rating) {
+        RepoUser user = userRepository.findByUsername(username);
+        Optional<Movie> movie = movieRepository.findById(movieId);
+        if (movie.isPresent()){
+            Optional<UserMovies> watchLaterMovieExists = userMovieRepository.findById(new UserMovieId(user,movie.get()));
+            if(watchLaterMovieExists.isPresent()) {
+                UserMovies userMovies = watchLaterMovieExists.get();
+                userMovies.setRating(rating);
+                this.userMovieRepository.save(userMovies);
+                return true;
+            }
+            else{
+                UserMovies userMovies = new UserMovies(new UserMovieId(user, movie.get()), null, false, null, false, rating);
+                userMovieRepository.save(userMovies);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
