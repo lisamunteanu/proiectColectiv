@@ -12,7 +12,12 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
-
+// deci tu vrei sa adaugi alte fisiere si dupa sa dai commit?da dar sunt foarte multe am multe create noi
+// si astea le ai pe pc nu? sunt aici pe branch . unde?Clasa FriendsRequestController spre exemplu e un fisier din 10
+//si astea is push uite nu? au fost , ca am sters pull requestul stai sa vad ceva
+// cred ca cel mai simplu ii sa faci alt branch
+//ca daca ai dat push acuma ori le salvezi local astea si dai git push cu ce aveai inainte si dupa le readaugi
+//deci sa inteleg, imi fac alt branch dar cum imi pastrez ce am lucrat aici...?
 @Service
 public class FriendsRequestServiceImpl implements FriendsRequestService {
 
