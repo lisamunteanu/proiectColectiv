@@ -1,13 +1,14 @@
 package grupa235.proiectColectiv.controllers;
 
-import grupa235.proiectColectiv.frontendModel.Message;
-import grupa235.proiectColectiv.frontendModel.SerialDetails;
-import grupa235.proiectColectiv.frontendModel.SerialModel;
+import grupa235.proiectColectiv.frontendModel.*;
 import grupa235.proiectColectiv.model.Series;
 import grupa235.proiectColectiv.services.impl.SeriesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,6 +57,24 @@ public class SeriesController {
             return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping(value = "series/watch-later")
+    public ResponseEntity<List<Series>> findAllSeries(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
+        String username = currentPrincipalName.getUsername();
+        List<Series> allSeries = seriesService.findAllWatchLaterSeriesForUser(username);
+        return new ResponseEntity<>(allSeries,HttpStatus.OK) ;
+
+    }
+
+    @PostMapping(value = "series/{id}/watch-later")
+    public ResponseEntity<?> addWatchLaterSeries(@PathVariable String id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
+        String username = currentPrincipalName.getUsername();
+        Boolean status = this.seriesService.watchLaterSeries(username, Integer.parseInt(id));
+        return new ResponseEntity<>(new BooleanModel(status),HttpStatus.OK);
+    }
 
     @GetMapping(value = "/series/details/{serialName}")
     public ResponseEntity<?> getDetailsForASerial(@PathVariable String serialName){
@@ -64,5 +83,32 @@ public class SeriesController {
             return new ResponseEntity<>(serialDetails, HttpStatus.OK);
         }
         return new ResponseEntity<>(new Message("This serial does not exist!"),HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping(value = "series/{id}/rate")
+    public ResponseEntity<?> modifySeriesRating(@PathVariable String id, @RequestBody RateModel rating){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
+        String username = currentPrincipalName.getUsername();
+        Boolean status = this.seriesService.setSeriesRating(username, Integer.parseInt(id),rating.getRating());
+        return new ResponseEntity<>(new BooleanModel(status),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "series/history")
+    public ResponseEntity<List<SeriesHistory>> findAllHistorySeries(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
+        String username = currentPrincipalName.getUsername();
+        List<SeriesHistory> allSeries = seriesService.findAllHistorySeriesForUser(username);
+        return new ResponseEntity<>(allSeries,HttpStatus.OK) ;
+
+    }
+    @PostMapping(value = "series/{id}/history")
+    public ResponseEntity<?> modifySeriesHistory(@PathVariable String id, @RequestBody EpisodeBodyForHistory rating){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
+        String username = currentPrincipalName.getUsername();
+        Boolean status = this.seriesService.historySeries(username, Integer.parseInt(id),rating.getEpisodeId());
+        return new ResponseEntity<>(new BooleanModel(status),HttpStatus.OK);
     }
 }
