@@ -6,8 +6,6 @@ import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.util.Date;
-
 @Entity
 @Table(name = "user")
 public class RepoUser {
@@ -16,22 +14,14 @@ public class RepoUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="username_email", unique = true)
-    @Email(message = "Please provide a valid e-mail")
-    @NotEmpty(message = "Please provide an e-mail")
+    @Column(name="username", unique = true)
+    @Email(message = "Please provide a valid e-mail as username")
+    @NotEmpty(message = "Please provide an e-mail as username")
     private String username;
 
     @Column(name="password")
     @JsonIgnore
     private String password;
-
-    private boolean enabled;
-
-    @Column(name="created_on")
-    private Date createdOn;
-
-    @Column(name="last_login")
-    private Date lastLogin;
 
     @Column(name="reset_token")
     private String resetToken;
@@ -56,29 +46,6 @@ public class RepoUser {
         return id;
     }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public Date getLastLogin() {
-        return lastLogin;
-    }
-
-    public void setLastLogin(Date lastLogin) {
-        this.lastLogin = lastLogin;
-    }
 
     public String getResetToken() {
         return resetToken;
