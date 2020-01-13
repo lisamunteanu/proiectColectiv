@@ -2,7 +2,6 @@ package grupa235.proiectColectiv.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -35,6 +34,9 @@ public class Series implements Serializable {
     @Column(name="director")
     private String director;
 
+    @Column(name="description")
+    private String description;
+
     @OneToMany(mappedBy = "series", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Season> seasons;
 
@@ -43,7 +45,7 @@ public class Series implements Serializable {
     public Series() {
     }
 
-    public Series(String name, String image, String releaseYear, Integer noOfEpisodes, Integer noOfSeasons, String genres, String director, Set<Season> seasons) {
+    public Series(String name, String image, String releaseYear, Integer noOfEpisodes, Integer noOfSeasons, String genres, String director, String description, Set<Season> seasons) {
         this.name = name;
         this.image = image;
         this.releaseYear = releaseYear;
@@ -51,9 +53,17 @@ public class Series implements Serializable {
         this.noOfSeasons = noOfSeasons;
         this.genres = genres;
         this.director = director;
+        this.description = description;
         this.seasons = seasons;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Integer getId() {
         return id;

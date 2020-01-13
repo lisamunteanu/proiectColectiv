@@ -1,15 +1,15 @@
 package grupa235.proiectColectiv.services;
 
 import grupa235.proiectColectiv.frontendModel.MovieDetails;
+import grupa235.proiectColectiv.frontendModel.MovieModel;
 import grupa235.proiectColectiv.model.Movie;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface MovieService {
-    List<Movie> findAllMovies();
+    List<MovieModel> findAllMovies();
 
-    Optional<Movie> findById(Integer id);
+    MovieModel findById(Integer id);
 
     List<Movie> findAllWatchLaterForUser(String username);
 

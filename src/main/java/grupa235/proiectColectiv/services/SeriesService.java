@@ -8,7 +8,7 @@ import grupa235.proiectColectiv.model.Series;
 import java.util.List;
 
 public interface SeriesService {
-    List<Series> getAllSeries();
+    List<SerialModel> getAllSeries();
 
     Series addSerial(SerialModel serialModel);
 

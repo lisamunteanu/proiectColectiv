@@ -1,28 +1,44 @@
 package grupa235.proiectColectiv.frontendModel;
 
-import java.time.LocalDate;
-
 public class MovieModel {
+    private Integer id;
     private String name;
     private String genres;
     private String releaseYear;
     private Integer duration;
-    private Double rating;
     private String director;
+    private Double rating;
     private String image;
 
-    public MovieModel(String name, String genres, String releaseYear,
-                      Integer duration, Double rating, String director, String image) {
+    public MovieModel(Integer id, String name, String genres, String releaseYear,
+                      Integer duration, String director, Double rating, String image) {
+        this.id = id;
         this.name = name;
         this.genres = genres;
         this.releaseYear = releaseYear;
         this.duration = duration;
-        this.rating = rating;
         this.director = director;
+        this.rating = rating;
         this.image = image;
     }
 
     public MovieModel() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
     public String getName() {
@@ -55,14 +71,6 @@ public class MovieModel {
 
     public void setDuration(Integer duration) {
         this.duration = duration;
-    }
-
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
     }
 
     public String getDirector() {

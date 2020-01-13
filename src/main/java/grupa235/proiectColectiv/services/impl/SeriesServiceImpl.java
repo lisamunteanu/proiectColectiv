@@ -40,8 +40,14 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
 
-    public List<Series> getAllSeries() {
-        return this.seriesRepository.findAll();
+    public List<SerialModel> getAllSeries() {
+        List<Series> allSeries = this.seriesRepository.findAll();
+        List<SerialModel> convertedSeries = new ArrayList<>();
+        for (Series series : allSeries) {
+            Double rating = this.userSeriesRepository.avgRatingBySeries(series);
+            convertedSeries.add(ConvertData.convertSerialToSerialModel(series,rating));
+        }
+        return convertedSeries;
     }
 
     public Series addSerial(SerialModel serialModel) {
@@ -50,7 +56,7 @@ public class SeriesServiceImpl implements SeriesService {
         return serial;
     }
 
-    public Series findSerialById(int id) throws Exception {
+    public SerialModel findSerialById(int id) throws Exception {
         return this.seriesRepository.findById(id).get();
     }
 
@@ -109,9 +115,11 @@ public class SeriesServiceImpl implements SeriesService {
     @Override
     public SerialDetails getDetailsForASerial(String serialName) {
         SerialDetails serialDetails;
-        Optional<Series> serial = this.seriesRepository.getSerialByName(serialName);
-        if (serial.isPresent()){
-            serialDetails = ConvertData.convertSerialToSerialDetails(serial.get());
+        Optional<Series> seriesOptional = this.seriesRepository.getSerialByName(serialName);
+        if (seriesOptional.isPresent()){
+            Series series = seriesOptional.get();
+            Double rating = this.userSeriesRepository.avgRatingBySeries(series);
+            serialDetails = ConvertData.convertSerialToSerialDetails(series,rating);
             return serialDetails;
         }
         return null;

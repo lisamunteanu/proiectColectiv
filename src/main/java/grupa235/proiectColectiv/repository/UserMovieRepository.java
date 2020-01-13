@@ -1,6 +1,7 @@
 package grupa235.proiectColectiv.repository;
 
 import grupa235.proiectColectiv.identities.UserMovieId;
+import grupa235.proiectColectiv.model.Movie;
 import grupa235.proiectColectiv.model.RepoUser;
 import grupa235.proiectColectiv.model.UserMovies;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,5 +18,8 @@ public interface UserMovieRepository extends JpaRepository<UserMovies, UserMovie
 
     @Query(value = "select * from user_movie e where e.id_user= :userId and e.history=true", nativeQuery = true)
     List<UserMovies> getAllHistoryMoviesByUser(@Param("userId") RepoUser user);
+
+    @Query(value = "select avg(e.rating) from user_movie e where e.id_movie= :movieId and e.rating>0", nativeQuery = true)
+    Double avgRatingByMovie(@Param("movieId") Movie movie);
 
 }

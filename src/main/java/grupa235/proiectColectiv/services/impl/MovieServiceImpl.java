@@ -2,6 +2,7 @@ package grupa235.proiectColectiv.services.impl;
 
 import grupa235.proiectColectiv.converter.ConvertData;
 import grupa235.proiectColectiv.frontendModel.MovieDetails;
+import grupa235.proiectColectiv.frontendModel.MovieModel;
 import grupa235.proiectColectiv.identities.UserMovieId;
 import grupa235.proiectColectiv.model.Movie;
 import grupa235.proiectColectiv.model.RepoUser;
@@ -32,13 +33,27 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> findAllMovies() {
-        return movieRepository.findAll();
+    public List<MovieModel> findAllMovies() {
+        List<Movie> allMovies = movieRepository.findAll();
+        List<MovieModel> convertedMovies = new ArrayList<>();
+        for (Movie movie : allMovies) {
+            Double rating = this.userMovieRepository.avgRatingByMovie(movie);
+            convertedMovies.add(ConvertData.convertMovieToMovieModel(movie,rating));
+        }
+        return convertedMovies;
     }
 
     @Override
-    public Optional<Movie> findById(Integer id){
-        return movieRepository.findById(id);
+    public MovieModel findById(Integer id){
+        Optional<Movie> movieOptional = movieRepository.findById(id);
+        MovieModel movieDetails;
+        if (movieOptional.isPresent()){
+            Movie movie = movieOptional.get();
+            Double rating = this.userMovieRepository.avgRatingByMovie(movie);
+            movieDetails = ConvertData.convertMovieToMovieModel(movie,rating);
+            return movieDetails;
+        }
+        return null;
     }
 
     @Override
@@ -82,10 +97,12 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieDetails getDetailsForAMovie(String movieName) {
-        Optional<Movie> movie = this.movieRepository.getMovieByName(movieName);
+        Optional<Movie> movieOptional = this.movieRepository.getMovieByName(movieName);
         MovieDetails movieDetails;
-        if (movie.isPresent()){
-            movieDetails = ConvertData.convertMovieToMovieDetails(movie.get());
+        if (movieOptional.isPresent()){
+            Movie movie = movieOptional.get();
+            Double rating = this.userMovieRepository.avgRatingByMovie(movie);
+            movieDetails = ConvertData.convertMovieToMovieDetails(movie,rating);
             return movieDetails;
         }
         return null;
