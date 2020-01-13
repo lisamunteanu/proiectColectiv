@@ -1,13 +1,7 @@
 package grupa235.proiectColectiv.converter;
 
-import grupa235.proiectColectiv.frontendModel.EpisodeModel;
-import grupa235.proiectColectiv.frontendModel.MovieModel;
-import grupa235.proiectColectiv.frontendModel.SeasonModel;
-import grupa235.proiectColectiv.frontendModel.SerialModel;
-import grupa235.proiectColectiv.model.Episode;
-import grupa235.proiectColectiv.model.Movie;
-import grupa235.proiectColectiv.model.Season;
-import grupa235.proiectColectiv.model.Series;
+import grupa235.proiectColectiv.frontendModel.*;
+import grupa235.proiectColectiv.model.*;
 
 import java.time.LocalDate;
 
@@ -66,4 +60,49 @@ public class ConvertData {
         return movieModel;
     }
 
+    public static MovieDetails convertMovieToMovieDetails(Movie movie){
+        MovieDetails movieDetails = new MovieDetails();
+        movieDetails.setName(movie.getName());
+        movieDetails.setDirector(movie.getDirector());
+        movieDetails.setDuration(movie.getDuration());
+        movieDetails.setGenres(movie.getGenres());
+        movieDetails.setRating(movie.getRating());
+        movieDetails.setReleaseYear(movie.getReleaseYear());
+        return movieDetails;
+    }
+
+    public static SerialDetails convertSerialToSerialDetails(Series serialDetails) {
+        SerialDetails serial = new SerialDetails();
+        serial.setImage(serialDetails.getImage());
+        serial.setGenres(serialDetails.getGenres());
+        serial.setDirector(serialDetails.getDirector());
+        serial.setName(serialDetails.getName());
+        serial.setReleaseYear(serialDetails.getReleaseYear());
+        serial.setNoOfSeasons(serialDetails.getNoOfSeasons());
+        serial.setNoOfEpisodes(serialDetails.getNoOfEpisodes());
+        return serial;
+    }
+
+    public static SeasonDetails convertSeasonToSeasonDetails(Season season){
+        SeasonDetails seasonDetails = new SeasonDetails();
+        seasonDetails.setNumber(season.getNumber());
+        seasonDetails.setGeneralDescription(season.getGeneralDescription());
+        seasonDetails.setName(season.getName());
+        return seasonDetails;
+    }
+
+    public static EpisodeDetails convertEpisodeToEpisodeDetails(Episode episode){
+        EpisodeDetails episodeDetails = new EpisodeDetails();
+        episodeDetails.setDescription(episode.getDescription());
+        episodeDetails.setDuration(episode.getDuration());
+        episodeDetails.setName(episode.getName());
+        episodeDetails.setNumber(episode.getNumber());
+        return episodeDetails;
+    }
+
+    public static Image convertUserImageToImage(UserImage userImage){
+        Image image = new Image();
+        image.setImage(userImage.getImage());
+        return image;
+    }
 }

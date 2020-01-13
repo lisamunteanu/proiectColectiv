@@ -1,23 +1,28 @@
 package grupa235.proiectColectiv.services.impl;
 
 import grupa235.proiectColectiv.converter.ConvertData;
+import grupa235.proiectColectiv.frontendModel.SerialDetails;
 import grupa235.proiectColectiv.frontendModel.SerialModel;
 import grupa235.proiectColectiv.model.Series;
+import grupa235.proiectColectiv.repository.SeasonsRepository;
 import grupa235.proiectColectiv.repository.SeriesRepository;
 import grupa235.proiectColectiv.services.SeriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SeriesServiceImpl implements SeriesService {
 
     private final SeriesRepository seriesRepository;
+    private final SeasonsRepository seasonsRepository;
 
     @Autowired
-    public SeriesServiceImpl(SeriesRepository seriesRepository) {
+    public SeriesServiceImpl(SeriesRepository seriesRepository,SeasonsRepository seasonsRepository) {
         this.seriesRepository = seriesRepository;
+        this.seasonsRepository=seasonsRepository;
     }
 
     public List<Series> getAllSeries() {
@@ -45,6 +50,17 @@ public class SeriesServiceImpl implements SeriesService {
             this.seriesRepository.save(isPresentSerial);
         }
         return isPresentSerial;
+    }
+
+    @Override
+    public SerialDetails getDetailsForASerial(String serialName) {
+        SerialDetails serialDetails;
+        Optional<Series> serial = this.seriesRepository.getSerialByName(serialName);
+        if (serial.isPresent()){
+            serialDetails = ConvertData.convertSerialToSerialDetails(serial.get());
+            return serialDetails;
+        }
+        return null;
     }
 
 }

@@ -26,6 +26,10 @@ public class RepoUser {
     @Column(name="reset_token")
     private String resetToken;
 
+    public long getId() {
+        return id;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -41,11 +45,6 @@ public class RepoUser {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public long getId() {
-        return id;
-    }
-
 
     public String getResetToken() {
         return resetToken;
