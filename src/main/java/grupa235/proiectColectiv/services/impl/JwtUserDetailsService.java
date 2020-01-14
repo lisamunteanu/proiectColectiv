@@ -4,7 +4,6 @@ import grupa235.proiectColectiv.frontendModel.UserDTO;
 import grupa235.proiectColectiv.model.RepoUser;
 import grupa235.proiectColectiv.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

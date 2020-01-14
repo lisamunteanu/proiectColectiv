@@ -8,6 +8,18 @@ import java.util.Optional;
 
 public interface MovieService {
     List<Movie> findAllMovies();
+
     Optional<Movie> findById(Integer id);
+
+    List<Movie> findAllWatchLaterForUser(String username);
+
+    Boolean watchLaterMovie(String username, Integer movieId);
+
     MovieDetails getDetailsForAMovie(String movieName);
+
+    List<Movie> findAllMovieHistoryForUser(String username);
+
+    Boolean movieHistory(String username, Integer movieId);
+
+    Boolean setMovieRating(String username, Integer movieId, Integer rating);
 }
