@@ -25,6 +25,9 @@ public class RepoUser {
     @Column(name="reset_token")
     private String resetToken;
 
+    @Column(name="user_role")
+    private String role;
+
     public long getId() {
         return id;
     }
@@ -51,5 +54,13 @@ public class RepoUser {
 
     public void setResetToken(String resetToken) {
         this.resetToken = resetToken;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

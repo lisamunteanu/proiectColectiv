@@ -21,6 +21,9 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Autowired
     private PasswordEncoder bcryptEncoder;
 
+    //it is the code for the userRole = user; 2 is for admin
+    public static final String USER_ROLE = "1";
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         RepoUser user = userRepository.findByUsername(username);
@@ -31,10 +34,19 @@ public class JwtUserDetailsService implements UserDetailsService {
                 new ArrayList<>());
     }
 
+    public RepoUser findByUsername(String username) throws UsernameNotFoundException {
+        RepoUser user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+        return user;
+    }
+
     public RepoUser save(UserDTO user) {
         RepoUser newUser = new RepoUser();
         newUser.setUsername(user.getUsername());
         newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
+        newUser.setRole(USER_ROLE);
         return userRepository.save(newUser);
     }
 
