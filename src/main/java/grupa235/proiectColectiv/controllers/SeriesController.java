@@ -27,15 +27,15 @@ public class SeriesController {
     }
 
     @GetMapping({"/series"})
-    public ResponseEntity<List<Series>> getAllSeries(){
-        List<Series> series = this.seriesService.getAllSeries();
+    public ResponseEntity<List<SerialModel>> getAllSeries(){
+        List<SerialModel> series = this.seriesService.getAllSeries();
         return new ResponseEntity<>(series, HttpStatus.OK);
     }
 
     @GetMapping({"/series/{serialId}"})
     public ResponseEntity<?> getSerialById(@PathVariable String serialId){
         try {
-            Series serial = this.seriesService.findSerialById(Integer.parseInt(serialId));
+            SerialModel serial = this.seriesService.findSerialById(Integer.parseInt(serialId));
             return new ResponseEntity<>(serial, HttpStatus.OK);
         } catch (Exception ex){
             return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);

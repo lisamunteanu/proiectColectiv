@@ -12,7 +12,7 @@ public interface SeriesService {
 
     Series addSerial(SerialModel serialModel);
 
-    Series findSerialById(int id) throws Exception;
+    SerialModel findSerialById(int id) throws Exception;
 
     Series updateSerial(Series serial) throws Exception;
 

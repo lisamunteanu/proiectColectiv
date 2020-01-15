@@ -57,7 +57,15 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
     public SerialModel findSerialById(int id) throws Exception {
-        return this.seriesRepository.findById(id).get();
+        SerialModel serialModel;
+        Optional<Series> seriesOptional = this.seriesRepository.findById(id);
+        if (seriesOptional.isPresent()){
+            Series series = seriesOptional.get();
+            Double rating = this.userSeriesRepository.avgRatingBySeries(series);
+            serialModel = ConvertData.convertSerialToSerialModel(series,rating);
+            return serialModel;
+        }
+        return null;
     }
 
     public Series updateSerial(Series serial) throws Exception {
