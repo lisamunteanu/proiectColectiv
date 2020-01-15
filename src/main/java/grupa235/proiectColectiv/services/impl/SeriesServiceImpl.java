@@ -3,6 +3,7 @@ package grupa235.proiectColectiv.services.impl;
 import grupa235.proiectColectiv.converter.ConvertData;
 import grupa235.proiectColectiv.frontendModel.SerialDetails;
 import grupa235.proiectColectiv.frontendModel.SerialModel;
+import grupa235.proiectColectiv.frontendModel.SerialPostModel;
 import grupa235.proiectColectiv.frontendModel.SeriesHistory;
 import grupa235.proiectColectiv.identities.UserSeriesId;
 import grupa235.proiectColectiv.model.Episode;
@@ -46,12 +47,13 @@ public class SeriesServiceImpl implements SeriesService {
         for (Series series : allSeries) {
             Double rating = this.userSeriesRepository.avgRatingBySeries(series);
             convertedSeries.add(ConvertData.convertSerialToSerialModel(series,rating));
+
         }
         return convertedSeries;
     }
 
-    public Series addSerial(SerialModel serialModel) {
-        Series serial = ConvertData.convertSerialModelToSerial(serialModel);
+    public Series addSerial(SerialPostModel serialPostModel) {
+        Series serial = ConvertData.convertSerialModelToSerial(serialPostModel);
         this.seriesRepository.save(serial);
         return serial;
     }

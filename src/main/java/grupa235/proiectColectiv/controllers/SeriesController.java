@@ -43,8 +43,8 @@ public class SeriesController {
     }
 
     @PostMapping({"/series"})
-    public ResponseEntity<Series> addSerial(@RequestBody SerialModel serialModel){
-        Series serial = this.seriesService.addSerial(serialModel);
+    public ResponseEntity<Series> addSerial(@RequestBody SerialPostModel serialPostModel){
+        Series serial = this.seriesService.addSerial(serialPostModel);
         return new ResponseEntity<>(serial,HttpStatus.OK);
     }
 

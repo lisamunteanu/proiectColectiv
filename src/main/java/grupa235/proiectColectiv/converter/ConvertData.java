@@ -19,6 +19,17 @@ public class ConvertData {
         return databaseSerial;
     }
 
+    public static Series convertSerialModelToSerial(SerialPostModel serialPostModel) {
+        Series databaseSerial = new Series();
+        databaseSerial.setName(serialPostModel.getName());
+        databaseSerial.setReleaseYear(String.valueOf(LocalDate.now().getYear()));
+        databaseSerial.setDirector(serialPostModel.getDirector());
+        databaseSerial.setGenres(serialPostModel.getGenres());
+        databaseSerial.setImage(serialPostModel.getImage());
+        databaseSerial.setDescription(serialPostModel.getDescription());
+        return databaseSerial;
+    }
+
     public static SerialModel convertSerialToSerialModel(Series series, Double rating) {
         SerialModel serialModel = new SerialModel();
         serialModel.setId(series.getId());

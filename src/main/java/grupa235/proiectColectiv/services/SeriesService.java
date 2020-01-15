@@ -2,6 +2,7 @@ package grupa235.proiectColectiv.services;
 
 import grupa235.proiectColectiv.frontendModel.SerialDetails;
 import grupa235.proiectColectiv.frontendModel.SerialModel;
+import grupa235.proiectColectiv.frontendModel.SerialPostModel;
 import grupa235.proiectColectiv.frontendModel.SeriesHistory;
 import grupa235.proiectColectiv.model.Series;
 
@@ -10,7 +11,7 @@ import java.util.List;
 public interface SeriesService {
     List<SerialModel> getAllSeries();
 
-    Series addSerial(SerialModel serialModel);
+    Series addSerial(SerialPostModel serialPostModel);
 
     SerialModel findSerialById(int id) throws Exception;
 
