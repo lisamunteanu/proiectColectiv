@@ -4,6 +4,7 @@ import grupa235.proiectColectiv.config.JwtTokenUtil;
 import grupa235.proiectColectiv.frontendModel.UserDTO;
 import grupa235.proiectColectiv.model.JwtRequest;
 import grupa235.proiectColectiv.model.JwtResponse;
+import grupa235.proiectColectiv.model.RepoUser;
 import grupa235.proiectColectiv.services.impl.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(
-    origins = {"*"}
-)
+    origins ={"*"}
+        )
 public class JwtAuthenticationController {
 
     @Autowired
@@ -32,14 +33,16 @@ public class JwtAuthenticationController {
 
     @PostMapping(value = "/authenticate",consumes = {"application/json"})
     public @ResponseBody ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+        String username=authenticationRequest.getUsername();
+        String password=authenticationRequest.getPassword();
 
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        authenticate(username, password);
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        final RepoUser user = userDetailsService.findByUsername(username);
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        return ResponseEntity.ok(new JwtResponse(token,user.getRole()));
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)

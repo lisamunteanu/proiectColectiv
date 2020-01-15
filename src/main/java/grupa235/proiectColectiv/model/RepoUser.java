@@ -1,8 +1,9 @@
 package grupa235.proiectColectiv.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "user")
@@ -11,11 +12,21 @@ public class RepoUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column
+
+    @Column(name="username", unique = true)
+    @Email(message = "Please provide a valid e-mail as username")
+    @NotEmpty(message = "Please provide an e-mail as username")
     private String username;
-    @Column
+
+    @Column(name="password")
     @JsonIgnore
     private String password;
+
+    @Column(name="reset_token")
+    private String resetToken;
+
+    @Column(name="user_role")
+    private String role;
 
     public long getId() {
         return id;
@@ -37,4 +48,19 @@ public class RepoUser {
         this.password = password;
     }
 
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }
