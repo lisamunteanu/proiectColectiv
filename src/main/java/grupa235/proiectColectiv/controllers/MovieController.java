@@ -53,5 +53,38 @@ public class MovieController {
         }
         return new ResponseEntity<>(new Message("There is not a movie with this name!"),HttpStatus.BAD_REQUEST);
     }
+    @GetMapping(value = "movies/FilterMoviesByGenres/{genre}")
+    public ResponseEntity<List<MovieModel>> FilterMoviesByGenres(@PathVariable String genre) {
+        List<Movie> allMovies = movieService.FilterMoviesByGenres(genre);
+        List<MovieModel> convertedMovies = ConvertData.convertMovieList(allMovies);
+        return new ResponseEntity<>(convertedMovies, HttpStatus.OK);
+    }
 
+    @GetMapping(value = "/movies/sortmoviesbyaddeddate")
+    public ResponseEntity<List<MovieModel>> SortMoviesByAddedDate() {
+        List<Movie> allMovies = movieService.SortMoviesByAddedDate();
+        List<MovieModel> convertedMovies = ConvertData.convertMovieList(allMovies);
+        return new ResponseEntity<>(convertedMovies, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/movies/sortmoviesbyrating")
+    public ResponseEntity<List<MovieModel>> SortMoviesByRating() {
+        List<Movie> allMovies = movieService.SortMoviesByRating();
+        List<MovieModel> convertedMovies = ConvertData.convertMovieList(allMovies);
+        return new ResponseEntity<>(convertedMovies, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/movies/sortmoviesbyreleaseyear")
+    public ResponseEntity<List<MovieModel>> SortMoviesByReleaseYear() {
+        List<Movie> allMovies = movieService.SortMoviesByReleaseYear();
+        List<MovieModel> convertedMovies = ConvertData.convertMovieList(allMovies);
+        return new ResponseEntity<>(convertedMovies, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/movies/sortmoviesbyname")
+    public ResponseEntity<List<MovieModel>> SortMoviesByName() {
+        List<Movie> allMovies = movieService.SortMoviesByName();
+        List<MovieModel> convertedMovies = ConvertData.convertMovieList(allMovies);
+        return new ResponseEntity<>(convertedMovies, HttpStatus.OK);
+    }
 }

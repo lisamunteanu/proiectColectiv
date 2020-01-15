@@ -71,5 +71,8 @@ public class EpisodesServiceImpl implements EpisodesService {
         }
         return null;
     }
+    public List<Episode> SortEpisodesByAddedDate() {
+        return episodesRepository.SortEpisodesByAddedDate();
+    }
 
 }

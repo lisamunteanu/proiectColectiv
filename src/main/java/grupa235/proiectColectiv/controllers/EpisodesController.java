@@ -1,5 +1,6 @@
 package grupa235.proiectColectiv.controllers;
 
+import grupa235.proiectColectiv.converter.ConvertData;
 import grupa235.proiectColectiv.frontendModel.EpisodeDetails;
 import grupa235.proiectColectiv.frontendModel.EpisodeModel;
 import grupa235.proiectColectiv.frontendModel.Message;
@@ -75,5 +76,11 @@ public class EpisodesController {
             return new ResponseEntity<>(episodeDetails,HttpStatus.OK);
         }
         return new ResponseEntity<>(new Message("There is no episodes available with this name!"),HttpStatus.BAD_REQUEST);
+    }
+    @GetMapping(value = "/episodes/SortEpisodesByAddedDate")
+    public ResponseEntity<List<EpisodeModel>> SortEpisodesByAddedDate() {
+        List<Episode> allEpisodes = episodesService.SortEpisodesByAddedDate();
+        List<EpisodeModel> convertedEpisodes = ConvertData.convertEpisodeList(allEpisodes);
+        return new ResponseEntity<>(convertedEpisodes, HttpStatus.OK);
     }
 }

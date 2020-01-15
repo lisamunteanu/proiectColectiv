@@ -4,6 +4,8 @@ import grupa235.proiectColectiv.frontendModel.*;
 import grupa235.proiectColectiv.model.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConvertData {
 
@@ -57,6 +59,7 @@ public class ConvertData {
         movieModel.setImage(movie.getImage());
         movieModel.setRating(movie.getRating());
         movieModel.setReleaseYear(movie.getReleaseYear());
+        movieModel.setAddedDate(movie.getAddedDate());
         return movieModel;
     }
 
@@ -105,4 +108,52 @@ public class ConvertData {
         image.setImage(userImage.getImage());
         return image;
     }
+    public static SerialModel convertSeriesToSeriesModel(Series serial) {
+        SerialModel serialModel = new SerialModel();
+        serialModel.setName(serial.getName());
+        serialModel.setImage(serial.getImage());
+        serialModel.setNoOfEpisodes(serial.getNoOfEpisodes());
+        serialModel.setNoOfSeasons(serial.getNoOfSeasons());
+        serialModel.setGenres(serial.getGenres());
+        serialModel.setDirector(serial.getDirector());
+        serialModel.setrating(serial.getRating());
+        serialModel.setEndYear(serial.getEndYear());
+        serialModel.setStartYear(serial.getStartYear());
+
+        return serialModel;
+    }
+
+    public  static List<MovieModel> convertMovieList(List<Movie> allMovies) {
+        List<MovieModel> convertedMovies = new ArrayList<>();
+        for (Movie m : allMovies) {
+            convertedMovies.add(ConvertData.convertMovieToMovieModel(m));
+        }
+        return convertedMovies;
+    }
+
+    public static EpisodeModel convertEpisodeToEpisodeModel(Episode episode) {
+        EpisodeModel episodeModel = new EpisodeModel();
+        episodeModel.setAddedDate(episode.getAddedDate());
+        episodeModel.setDescription(episode.getDescription());
+        episodeModel.setDuration(episode.getDuration());
+        episodeModel.setNumber(episode.getNumber());
+        return episodeModel;
+    }
+
+    public static List<EpisodeModel> convertEpisodeList(List<Episode> allEpisodes) {
+        List<EpisodeModel> convertedEpisodes = new ArrayList<>();
+        for (Episode e : allEpisodes) {
+            convertedEpisodes.add(ConvertData.convertEpisodeToEpisodeModel(e));
+        }
+        return convertedEpisodes;
+    }
+
+    public static List<SerialModel> convertSerialList(List<Series> allSeries) {
+        List<SerialModel> convertedSeries = new ArrayList<>();
+        for (Series s : allSeries) {
+            convertedSeries.add(ConvertData.convertSeriesToSeriesModel(s));
+        }
+        return convertedSeries;
+    }
+
 }

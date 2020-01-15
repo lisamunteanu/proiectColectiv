@@ -17,4 +17,6 @@ public interface EpisodesRepository extends JpaRepository<Episode,Integer> {
     @Query(value= "select * from episodes e where e.name= :episodeName limit 1",nativeQuery = true)
     Optional<Episode> getEpisodeByName(@Param("episodeName") String episodeName);
 
+    @Query(value = "select * from episodes m order by addedDate",nativeQuery = true)
+    List<Episode> SortEpisodesByAddedDate();
 }

@@ -1,5 +1,6 @@
 package grupa235.proiectColectiv.controllers;
 
+import grupa235.proiectColectiv.converter.ConvertData;
 import grupa235.proiectColectiv.frontendModel.Message;
 import grupa235.proiectColectiv.frontendModel.SerialDetails;
 import grupa235.proiectColectiv.frontendModel.SerialModel;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -64,5 +66,38 @@ public class SeriesController {
             return new ResponseEntity<>(serialDetails, HttpStatus.OK);
         }
         return new ResponseEntity<>(new Message("This serial does not exist!"),HttpStatus.BAD_REQUEST);
+    }
+    @GetMapping(value = "series/FilterSeriesByGenres/{genre}")
+    public ResponseEntity<List<SerialModel>> FilterSeriesByGenres(@PathVariable String genre) {
+        List<Series> allSeries = seriesService.FilterSeriesByGenres(genre);
+        List<SerialModel> convertedSeries = ConvertData.convertSerialList(allSeries);
+        return new ResponseEntity<>(convertedSeries, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/series/SortSeriesByName")
+    public ResponseEntity<List<SerialModel>> SortSeriesByName() {
+        List<Series> allSeries = seriesService.SortSeriesByName();
+        List<SerialModel> convertedSeries = ConvertData.convertSerialList(allSeries);
+        return new ResponseEntity<>(convertedSeries, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/series/SortSeriesByRating")
+    public ResponseEntity<List<SerialModel>> SortSeriesByRating() {
+        List<Series> allSeries = seriesService.SortSeriesByRating();
+        List<SerialModel> convertedSeries = ConvertData.convertSerialList(allSeries);
+        return new ResponseEntity<>(convertedSeries, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/series/SortSeriesByStartYear")
+    public ResponseEntity<List<SerialModel>> SortSeriesByStartYear() {
+        List<Series> allSeries = seriesService.SortSeriesByStartYear();
+        List<SerialModel> convertedSeries = ConvertData.convertSerialList(allSeries);
+        return new ResponseEntity<>(convertedSeries, HttpStatus.OK);
+    }
+    @GetMapping(value = "/series/SortSeriesByEndYear")
+    public ResponseEntity<List<SerialModel>> SortSeriesByEndYear() {
+        List<Series> allSeries = seriesService.SortSeriesEndYear();
+        List<SerialModel> convertedSeries = ConvertData.convertSerialList(allSeries);
+        return new ResponseEntity<>(convertedSeries, HttpStatus.OK);
     }
 }

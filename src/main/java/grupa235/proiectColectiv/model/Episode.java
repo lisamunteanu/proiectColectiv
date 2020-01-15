@@ -2,6 +2,7 @@ package grupa235.proiectColectiv.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name="episodes")
@@ -23,6 +24,9 @@ public class Episode implements Serializable {
     @Column(name="duration")
     private Integer duration;
 
+    @Column(name="addedDate")
+    private Date addedDate;
+
     @ManyToOne(cascade = {
             CascadeType.MERGE,
             CascadeType.PERSIST})
@@ -30,11 +34,12 @@ public class Episode implements Serializable {
     private Season season;
 
 
-    public Episode(String name, Integer number, String description, Integer duration) {
+    public Episode(String name, Integer number, String description, Integer duration, Date addedDate) {
         this.name = name;
         this.number = number;
         this.description = description;
         this.duration = duration;
+        this.addedDate=addedDate;
     }
 
     public Episode() {
@@ -86,5 +91,13 @@ public class Episode implements Serializable {
 
     public void setSeason(Season season) {
         this.season = season;
+    }
+
+    public Date getAddedDate() {
+        return addedDate;
+    }
+
+    public void setAddedDate(Date addedDate) {
+        this.addedDate = addedDate;
     }
 }

@@ -10,4 +10,13 @@ public interface MovieService {
     List<Movie> findAllMovies();
     Optional<Movie> findById(Integer id);
     MovieDetails getDetailsForAMovie(String movieName);
+    List<Movie> FilterMoviesByGenres(String genre);
+
+    List<Movie> SortMoviesByAddedDate();
+
+    List<Movie> SortMoviesByRating();
+
+    List<Movie> SortMoviesByReleaseYear();
+
+    List<Movie> SortMoviesByName();
 }

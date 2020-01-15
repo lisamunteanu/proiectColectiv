@@ -9,6 +9,7 @@ import grupa235.proiectColectiv.repository.SeriesRepository;
 import grupa235.proiectColectiv.services.SeriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,6 +62,28 @@ public class SeriesServiceImpl implements SeriesService {
             return serialDetails;
         }
         return null;
+    }
+
+    public List<Series> FilterSeriesByGenres(@PathVariable String genre) {
+        return seriesRepository.FilterSeriesByGenres(genre);
+    }
+
+    public List<Series> SortSeriesByName() {
+        return seriesRepository.SortSeriesByName();
+    }
+
+    public List<Series> SortSeriesByRating() {
+        return seriesRepository.SortSeriesByRating();
+    }
+
+
+    public List<Series> SortSeriesByStartYear() {
+        return seriesRepository.SortSeriesByStartYear();
+    }
+
+
+    public List<Series> SortSeriesEndYear() {
+        return seriesRepository.SortSeriesEndYear();
     }
 
 }

@@ -3,6 +3,7 @@ package grupa235.proiectColectiv.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -35,6 +36,14 @@ public class Series implements Serializable {
     @Column(name="director")
     private String director;
 
+    @Column(name="startYear")
+    private String startYear;
+
+    @Column(name="endYear")
+    private String endYear;
+    @Column(name="rating")
+    private Integer rating;
+
     @OneToMany(mappedBy = "series", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Season> seasons;
 
@@ -43,7 +52,7 @@ public class Series implements Serializable {
     public Series() {
     }
 
-    public Series(String name, String image, String releaseYear, Integer noOfEpisodes, Integer noOfSeasons, String genres, String director, Set<Season> seasons) {
+    public Series(String name, String image, String releaseYear, Integer noOfEpisodes, Integer noOfSeasons, String genres, String director, Set<Season> seasons,String startYear, String endYear, Integer rating ) {
         this.name = name;
         this.image = image;
         this.releaseYear = releaseYear;
@@ -52,6 +61,9 @@ public class Series implements Serializable {
         this.genres = genres;
         this.director = director;
         this.seasons = seasons;
+        this.rating = rating;
+        this.startYear=startYear;
+        this.endYear=endYear;
     }
 
 
@@ -118,4 +130,27 @@ public class Series implements Serializable {
     public void setImage(String image) {
         this.image = image;
     }
+    public String getStartYear() {
+        return startYear;
+    }
+
+    public void setStartYear(String startYear) {
+        this.startYear = startYear;
+    }
+
+    public String getEndYear() {
+        return endYear;
+    }
+
+    public void setEndYear(String endYear) {
+        this.endYear = endYear;
+    }
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
 }
