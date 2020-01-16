@@ -1,5 +1,7 @@
 package grupa235.proiectColectiv.services.impl;
 
+import grupa235.proiectColectiv.converter.ConvertData;
+import grupa235.proiectColectiv.frontendModel.FriendsRequestModel;
 import grupa235.proiectColectiv.model.Friends;
 import grupa235.proiectColectiv.model.FriendsRequest;
 import grupa235.proiectColectiv.model.RepoUser;
@@ -11,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FriendsRequestServiceImpl implements FriendsRequestService {
@@ -76,5 +81,17 @@ public class FriendsRequestServiceImpl implements FriendsRequestService {
             return true;
         }
         throw new Exception("A user was deleted!");
+    }
+
+    @Override
+    public List<FriendsRequestModel> getAllFriendsRequest(String name) throws Exception {
+        List<FriendsRequestModel> friendsRequestModels = new ArrayList<>();
+        RepoUser repoUser = this.userRepository.findByUsername(name);
+        Optional<List<FriendsRequest>> optionalFriendsRequest = this.friendsRequestRepository.getRequestByAUser(repoUser.getId());
+        if (optionalFriendsRequest.isPresent()){
+            List<FriendsRequest> friendsRequests = optionalFriendsRequest.get();
+            friendsRequests.forEach(x->{friendsRequestModels.add(ConvertData.convertFriendsRequestToFriendsRequestModel(x));});
+        }
+        return friendsRequestModels;
     }
 }
