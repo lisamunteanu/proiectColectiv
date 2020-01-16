@@ -105,4 +105,10 @@ public class ConvertData {
         image.setImage(userImage.getImage());
         return image;
     }
+
+    public static FriendsRequestModel convertFriendsRequestToFriendsRequestModel(FriendsRequest friendsRequest){
+        FriendsRequestModel friendsRequestModel = new FriendsRequestModel();
+        friendsRequestModel.setFriendsRequest(friendsRequest.getSendByUser());
+        return friendsRequestModel;
+    }
 }

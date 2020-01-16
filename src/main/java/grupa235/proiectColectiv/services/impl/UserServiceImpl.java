@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -73,6 +74,9 @@ public class UserServiceImpl implements UserService {
             names = getAllFriendsUsingAnId(repoUser.getId(),newFriends);
             return getAllNewFriends(names,repoUser.getUsername());
         }
+        else{
+            names = getAllFriendsName();
+        }
         return names;
     }
 
@@ -108,4 +112,10 @@ public class UserServiceImpl implements UserService {
         }
         return possibleFriends;
     }
+
+    private List<String> getAllFriendsName(){
+        List<RepoUser> repoUserList = (List<RepoUser>) this.userRepository.findAll();
+        return repoUserList.stream().map(RepoUser::getUsername).collect(Collectors.toList());
+    }
+
 }
