@@ -34,7 +34,7 @@ public class FriendsRequestServiceImpl implements FriendsRequestService {
 
 
     @Override
-    public FriendsRequest sendFriendRequest(String sendByUser ,String userName) throws Exception{
+    public FriendsRequestModel sendFriendRequest(String sendByUser ,String userName) throws Exception{
         RepoUser repoUser = this.userRepository.findByUsername(userName);
         Optional<FriendsRequest> optionalFriendsRequest = this.friendsRequestRepository.existThisRequest(sendByUser,repoUser.getId());
         if (!optionalFriendsRequest.isPresent()){
@@ -42,11 +42,11 @@ public class FriendsRequestServiceImpl implements FriendsRequestService {
             friendsRequest.setSendByUser(sendByUser);
             friendsRequest.setUser(repoUser);
             this.friendsRequestRepository.save(friendsRequest);
-            FriendsRequest requestModel = new FriendsRequest();
-            requestModel.setSendByUser(sendByUser);
+            FriendsRequestModel requestModel = new FriendsRequestModel();
+            requestModel.setFriendsRequest(sendByUser);
             return requestModel;
         }
-        throw new Exception("They are already friends!");
+        throw new Exception("You already send a request!");
     }
 
     @Transactional

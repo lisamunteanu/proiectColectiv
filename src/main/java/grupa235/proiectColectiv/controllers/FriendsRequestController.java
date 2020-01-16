@@ -28,13 +28,13 @@ public class FriendsRequestController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String userTokenName = userDetails.getUsername();
-        FriendsRequest friendsRequest;
+        FriendsRequestModel friendsRequest;
         try {
             friendsRequest = this.friendsRequestService.sendFriendRequest(userTokenName,userName);
+            return new ResponseEntity<>(friendsRequest,HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(new Message(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(friendsRequest,HttpStatus.OK);
     }
 
     @PostMapping({"/friendRequestCanceled/{userName}"})
