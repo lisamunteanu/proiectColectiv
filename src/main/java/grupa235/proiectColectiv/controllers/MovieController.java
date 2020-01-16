@@ -2,8 +2,12 @@ package grupa235.proiectColectiv.controllers;
 
 import grupa235.proiectColectiv.converter.ConvertData;
 import grupa235.proiectColectiv.frontendModel.*;
+import grupa235.proiectColectiv.model.Friends;
 import grupa235.proiectColectiv.model.Movie;
+import grupa235.proiectColectiv.model.RepoUser;
+import grupa235.proiectColectiv.services.FriendsService;
 import grupa235.proiectColectiv.services.MovieService;
+import grupa235.proiectColectiv.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +28,12 @@ public class MovieController {
 
     @Autowired
     MovieService movieService;
+
+    @Autowired
+    FriendsService friendsService;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping(value = "/movies")
     public ResponseEntity<List<Movie>> findAllMovies() {
@@ -107,6 +117,39 @@ public class MovieController {
         String username = currentPrincipalName.getUsername();
         Boolean status = this.movieService.setMovieRating(username, Integer.parseInt(id),rating.getRating());
         return new ResponseEntity<>(new BooleanModel(status),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "movies/recomended")
+    public ResponseEntity<?> recomendedMovies()
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
+        String username = currentPrincipalName.getUsername();
+        Optional<List<Friends>> friends = friendsService.findAllFriendsForUser(username);
+
+        List<Friends> friendsList = new ArrayList<>();
+        List<Movie> friendHistory = new ArrayList<>();
+
+        if(friends.isPresent())
+            friendsList = friends.get();
+
+        for (Friends friend : friendsList) {
+            String friendUsername ;
+            if(friend.getFirstUser().equals(username))
+                friendUsername = friend.getSecondUser().getUsername();
+            else
+                friendUsername = friend.getFirstUser().getUsername();
+            friendHistory.addAll(movieService.findAllMovieHistoryForUser(friendUsername));
+        }
+        List<Movie> recomendedMovies = new ArrayList<>();
+        int noRecomendedMovies = friendHistory.size()/4;
+        Random random = new Random();
+        while(noRecomendedMovies!=0)
+        {
+            recomendedMovies.add(friendHistory.get(random.nextInt(friendHistory.size()-1)));
+            noRecomendedMovies--;
+        }
+        return new ResponseEntity<>(recomendedMovies,HttpStatus.OK);
     }
 
 }
