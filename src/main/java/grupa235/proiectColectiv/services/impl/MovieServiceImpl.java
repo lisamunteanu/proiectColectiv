@@ -43,8 +43,8 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> findAllWatchLaterForUser(String username) {
-        RepoUser user = userRepository.findByUsername(username);
-        List<UserMovies> moviesId =  userMovieRepository.getAllWatchLaterMoviesByUser(user);
+        Optional<RepoUser> user = userRepository.findByUsername(username);
+        List<UserMovies> moviesId =  userMovieRepository.getAllWatchLaterMoviesByUser(user.get());
         List<Movie> movies= new ArrayList<>();
         moviesId.forEach(movieId -> {
                 movies.add(movieId.getUserMovieId().getMovie());
@@ -53,11 +53,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Boolean watchLaterMovie(String username, Integer movieId) {
-        RepoUser user = userRepository.findByUsername(username);
+    public Boolean watchLaterMovie(String username, Integer movieId)  {
+        Optional<RepoUser> user = userRepository.findByUsername(username);
         Optional<Movie> movie = movieRepository.findById(movieId);
         if (movie.isPresent()){
-            Optional<UserMovies> watchLaterMovieExists = userMovieRepository.findById(new UserMovieId(user,movie.get()));
+            Optional<UserMovies> watchLaterMovieExists = userMovieRepository.findById(new UserMovieId(user.get(),movie.get()));
             if(watchLaterMovieExists.isPresent()) {
                 UserMovies userMovies = watchLaterMovieExists.get();
                 if(userMovies.getWatchLater()) {
@@ -72,7 +72,7 @@ public class MovieServiceImpl implements MovieService {
                 return userMovies.getWatchLater();
             }
             else {
-                UserMovies userMovies = new UserMovies(new UserMovieId(user, movie.get()), LocalDateTime.now(), true, null, false, 0);
+                UserMovies userMovies = new UserMovies(new UserMovieId(user.get(), movie.get()), LocalDateTime.now(), true, null, false, 0);
                 userMovieRepository.save(userMovies);
                 return true;
             }
@@ -93,8 +93,8 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> findAllMovieHistoryForUser(String username) {
-        RepoUser user = userRepository.findByUsername(username);
-        List<UserMovies> moviesId =  userMovieRepository.getAllHistoryMoviesByUser(user);
+        Optional<RepoUser> user = userRepository.findByUsername(username);
+        List<UserMovies> moviesId =  userMovieRepository.getAllHistoryMoviesByUser(user.get());
         List<Movie> movies= new ArrayList<>();
         moviesId.forEach(movieId -> {
             movies.add(movieId.getUserMovieId().getMovie());
@@ -104,10 +104,10 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Boolean movieHistory(String username, Integer movieId) {
-        RepoUser user = userRepository.findByUsername(username);
+        Optional<RepoUser> user = userRepository.findByUsername(username);
         Optional<Movie> movie = movieRepository.findById(movieId);
         if (movie.isPresent()){
-            Optional<UserMovies> watchLaterMovieExists = userMovieRepository.findById(new UserMovieId(user,movie.get()));
+            Optional<UserMovies> watchLaterMovieExists = userMovieRepository.findById(new UserMovieId(user.get(),movie.get()));
             if(watchLaterMovieExists.isPresent()) {
                 UserMovies userMovies = watchLaterMovieExists.get();
                 if(userMovies.getHistory()) {
@@ -122,7 +122,7 @@ public class MovieServiceImpl implements MovieService {
                 return userMovies.getHistory();
             }
             else {
-                UserMovies userMovies = new UserMovies(new UserMovieId(user, movie.get()), null, false, LocalDateTime.now(), true, 0);
+                UserMovies userMovies = new UserMovies(new UserMovieId(user.get(), movie.get()), null, false, LocalDateTime.now(), true, 0);
                 userMovieRepository.save(userMovies);
                 return true;
             }
@@ -132,10 +132,10 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Boolean setMovieRating(String username, Integer movieId, Integer rating) {
-        RepoUser user = userRepository.findByUsername(username);
+        Optional<RepoUser> user = userRepository.findByUsername(username);
         Optional<Movie> movie = movieRepository.findById(movieId);
         if (movie.isPresent()){
-            Optional<UserMovies> watchLaterMovieExists = userMovieRepository.findById(new UserMovieId(user,movie.get()));
+            Optional<UserMovies> watchLaterMovieExists = userMovieRepository.findById(new UserMovieId(user.get(),movie.get()));
             if(watchLaterMovieExists.isPresent()) {
                 UserMovies userMovies = watchLaterMovieExists.get();
                 userMovies.setRating(rating);
@@ -143,7 +143,7 @@ public class MovieServiceImpl implements MovieService {
                 return true;
             }
             else{
-                UserMovies userMovies = new UserMovies(new UserMovieId(user, movie.get()), null, false, null, false, rating);
+                UserMovies userMovies = new UserMovies(new UserMovieId(user.get(), movie.get()), null, false, null, false, rating);
                 userMovieRepository.save(userMovies);
                 return true;
             }

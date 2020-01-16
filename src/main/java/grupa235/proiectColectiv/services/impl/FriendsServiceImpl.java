@@ -22,7 +22,7 @@ public class FriendsServiceImpl implements FriendsService {
 
     @Override
     public Optional<List<Friends>> findAllFriendsForUser(String username) {
-        RepoUser user =  users.findByUsername(username);
-        return friends.getFriends(user.getId());
+        Optional<RepoUser> user =  users.findByUsername(username);
+        return friends.getFriends(user.get().getId());
     }
 }

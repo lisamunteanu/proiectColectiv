@@ -11,15 +11,15 @@ public interface MovieService {
 
     Optional<Movie> findById(Integer id);
 
-    List<Movie> findAllWatchLaterForUser(String username);
+    List<Movie> findAllWatchLaterForUser(String username) throws Exception;
 
-    Boolean watchLaterMovie(String username, Integer movieId);
+    Boolean watchLaterMovie(String username, Integer movieId) throws Exception;
 
     MovieDetails getDetailsForAMovie(String movieName);
 
-    List<Movie> findAllMovieHistoryForUser(String username);
+    List<Movie> findAllMovieHistoryForUser(String username) throws Exception;
 
-    Boolean movieHistory(String username, Integer movieId);
+    Boolean movieHistory(String username, Integer movieId) throws Exception;
 
-    Boolean setMovieRating(String username, Integer movieId, Integer rating);
+    Boolean setMovieRating(String username, Integer movieId, Integer rating) throws Exception;
 }

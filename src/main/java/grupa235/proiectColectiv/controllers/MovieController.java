@@ -67,7 +67,7 @@ public class MovieController {
         return new ResponseEntity<>(new Message("There is not a movie with this name!"),HttpStatus.BAD_REQUEST);
     }
     @GetMapping(value = "movies/watch-later")
-    public ResponseEntity<List<MovieModel>> findAllWatchLaterMovies(){
+    public ResponseEntity<List<MovieModel>> findAllWatchLaterMovies() throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
         String username = currentPrincipalName.getUsername();
@@ -80,7 +80,7 @@ public class MovieController {
     }
 
     @PostMapping(value = "movies/{id}/watch-later")
-    public ResponseEntity<?> modifyWatchLaterMovie(@PathVariable String id){
+    public ResponseEntity<?> modifyWatchLaterMovie(@PathVariable String id) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
         String username = currentPrincipalName.getUsername();
@@ -89,7 +89,7 @@ public class MovieController {
     }
 
     @GetMapping(value = "movies/history")
-    public ResponseEntity<List<MovieModel>> findAllMovieHistory(){
+    public ResponseEntity<List<MovieModel>> findAllMovieHistory() throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
         String username = currentPrincipalName.getUsername();
@@ -102,7 +102,7 @@ public class MovieController {
     }
 
     @PostMapping(value = "movies/{id}/history")
-    public ResponseEntity<?> modifyMovieHistory(@PathVariable String id){
+    public ResponseEntity<?> modifyMovieHistory(@PathVariable String id) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
         String username = currentPrincipalName.getUsername();
@@ -111,7 +111,7 @@ public class MovieController {
     }
 
     @PostMapping(value = "movies/{id}/rate")
-    public ResponseEntity<?> modifyMovieRating(@PathVariable String id, @RequestBody RateModel rating){
+    public ResponseEntity<?> modifyMovieRating(@PathVariable String id, @RequestBody RateModel rating) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
         String username = currentPrincipalName.getUsername();
@@ -120,8 +120,7 @@ public class MovieController {
     }
 
     @GetMapping(value = "movies/recommended")
-    public ResponseEntity<?> recommendedMovies()
-    {
+    public ResponseEntity<?> recommendedMovies() throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
         String username = currentPrincipalName.getUsername();
@@ -141,15 +140,17 @@ public class MovieController {
                 friendUsername = friend.getFirstUser().getUsername();
             friendHistory.addAll(movieService.findAllMovieHistoryForUser(friendUsername));
         }
-        List<Movie> recomendedMovies = new ArrayList<>();
-        int noRecomendedMovies = friendHistory.size()/4;
+        List<Movie> recommendedMovies = new ArrayList<>();
+        int noRecommendedMovies = friendHistory.size();
+        if(noRecommendedMovies>10)
+            noRecommendedMovies=10;
         Random random = new Random();
-        while(noRecomendedMovies!=0)
+        while(noRecommendedMovies!=0)
         {
-            recomendedMovies.add(friendHistory.get(random.nextInt(friendHistory.size()-1)));
-            noRecomendedMovies--;
+            recommendedMovies.add(friendHistory.get(random.nextInt(friendHistory.size())));
+            noRecommendedMovies--;
         }
-        return new ResponseEntity<>(recomendedMovies,HttpStatus.OK);
+        return new ResponseEntity<>(recommendedMovies,HttpStatus.OK);
     }
 
 }

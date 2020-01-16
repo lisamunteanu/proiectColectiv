@@ -69,8 +69,8 @@ public class SeriesServiceImpl implements SeriesService {
 
     @Override
     public List<Series> findAllWatchLaterSeriesForUser(String username) {
-        RepoUser user = userRepository.findByUsername(username);
-        List<UserSeries> seriesIds =  userSeriesRepository.getAllWatchLaterSeriesByUser(user);
+        Optional<RepoUser> user = userRepository.findByUsername(username);
+        List<UserSeries> seriesIds =  userSeriesRepository.getAllWatchLaterSeriesByUser(user.get());
         List<Series> series= new ArrayList<>();
         seriesIds.forEach(seriesId -> {
             series.add(seriesId.getUserSeriesId().getSeries());
@@ -81,10 +81,10 @@ public class SeriesServiceImpl implements SeriesService {
 
     @Override
     public Boolean watchLaterSeries(String username, Integer seriesId) {
-        RepoUser user = userRepository.findByUsername(username);
+        Optional<RepoUser> user = userRepository.findByUsername(username);
         Optional<Series> series = seriesRepository.findById(seriesId);
         if (series.isPresent()){
-            Optional<UserSeries> watchLaterSeriesOptional = userSeriesRepository.findById(new UserSeriesId(user,series.get()));
+            Optional<UserSeries> watchLaterSeriesOptional = userSeriesRepository.findById(new UserSeriesId(user.get(),series.get()));
             if(watchLaterSeriesOptional.isPresent()) {
                 UserSeries userSeries =  watchLaterSeriesOptional.get();
                 if(userSeries.getWatchLater()){
@@ -99,7 +99,7 @@ public class SeriesServiceImpl implements SeriesService {
                 return userSeries.getWatchLater();
             }
             else {
-                UserSeries userSeries = new UserSeries(new UserSeriesId(user, series.get()), LocalDateTime.now() ,true, null, false, 0, null);
+                UserSeries userSeries = new UserSeries(new UserSeriesId(user.get(), series.get()), LocalDateTime.now() ,true, null, false, 0, null);
                 userSeriesRepository.save(userSeries);
                 return true;
             }
@@ -119,10 +119,10 @@ public class SeriesServiceImpl implements SeriesService {
 
     @Override
     public Boolean setSeriesRating(String username, Integer seriesId, Integer rating) {
-        RepoUser user = userRepository.findByUsername(username);
+        Optional<RepoUser> user = userRepository.findByUsername(username);
         Optional<Series> series = seriesRepository.findById(seriesId);
         if (series.isPresent()){
-            Optional<UserSeries> watchLaterSeriesOptional = userSeriesRepository.findById(new UserSeriesId(user,series.get()));
+            Optional<UserSeries> watchLaterSeriesOptional = userSeriesRepository.findById(new UserSeriesId(user.get(),series.get()));
             if(watchLaterSeriesOptional.isPresent()) {
                 UserSeries userSeries =  watchLaterSeriesOptional.get();
                 userSeries.setRating(rating);
@@ -130,7 +130,7 @@ public class SeriesServiceImpl implements SeriesService {
                 return true;
             }
             else {
-                UserSeries userSeries = new UserSeries(new UserSeriesId(user, series.get()), null ,false, null, false, rating, null);
+                UserSeries userSeries = new UserSeries(new UserSeriesId(user.get(), series.get()), null ,false, null, false, rating, null);
                 userSeriesRepository.save(userSeries);
                 return true;
             }
@@ -140,8 +140,8 @@ public class SeriesServiceImpl implements SeriesService {
 
     @Override
     public List<SeriesHistory> findAllHistorySeriesForUser(String username) {
-        RepoUser user = userRepository.findByUsername(username);
-        List<UserSeries> seriesIds =  userSeriesRepository.getAllHistorySeriesByUser(user);
+        Optional<RepoUser> user = userRepository.findByUsername(username);
+        List<UserSeries> seriesIds =  userSeriesRepository.getAllHistorySeriesByUser(user.get());
         List<SeriesHistory> series= new ArrayList<>();
         seriesIds.forEach(seriesId -> {
 
@@ -153,11 +153,11 @@ public class SeriesServiceImpl implements SeriesService {
 
     @Override
     public Boolean historySeries(String username, Integer seriesId, Integer episodeId) {
-        RepoUser user = userRepository.findByUsername(username);
+        Optional<RepoUser> user = userRepository.findByUsername(username);
         Optional<Series> series = seriesRepository.findById(seriesId);
         Episode episode = this.episodesRepository.findById(episodeId).get();
         if (series.isPresent()){
-            Optional<UserSeries> watchLaterSeriesOptional = userSeriesRepository.findById(new UserSeriesId(user,series.get()));
+            Optional<UserSeries> watchLaterSeriesOptional = userSeriesRepository.findById(new UserSeriesId(user.get(),series.get()));
             if(watchLaterSeriesOptional.isPresent()) {
                 UserSeries userSeries =  watchLaterSeriesOptional.get();
                 if(userSeries.getHistory() && userSeries.getEpisode() == episode){
@@ -174,7 +174,7 @@ public class SeriesServiceImpl implements SeriesService {
                 return userSeries.getWatchLater();
             }
             else {
-                UserSeries userSeries = new UserSeries(new UserSeriesId(user, series.get()), null,false, LocalDateTime.now(), true, 0, episode);
+                UserSeries userSeries = new UserSeries(new UserSeriesId(user.get(), series.get()), null,false, LocalDateTime.now(), true, 0, episode);
                 userSeriesRepository.save(userSeries);
                 return true;
             }
