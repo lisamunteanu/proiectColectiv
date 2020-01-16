@@ -119,8 +119,8 @@ public class MovieController {
         return new ResponseEntity<>(new BooleanModel(status),HttpStatus.OK);
     }
 
-    @GetMapping(value = "movies/recomended")
-    public ResponseEntity<?> recomendedMovies()
+    @GetMapping(value = "movies/recommended")
+    public ResponseEntity<?> recommendedMovies()
     {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
