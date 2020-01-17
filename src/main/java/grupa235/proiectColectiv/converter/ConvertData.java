@@ -75,6 +75,7 @@ public class ConvertData {
 
     public static SerialDetails convertSerialToSerialDetails(Series serialDetails) {
         SerialDetails serial = new SerialDetails();
+        serial.setId(serialDetails.getId());
         serial.setImage(serialDetails.getImage());
         serial.setGenres(serialDetails.getGenres());
         serial.setDirector(serialDetails.getDirector());

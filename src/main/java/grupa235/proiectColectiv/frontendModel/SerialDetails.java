@@ -3,7 +3,7 @@ package grupa235.proiectColectiv.frontendModel;
 import java.io.Serializable;
 
 public class SerialDetails implements Serializable {
-
+    private Integer id;
     private String name;
     private String image;
     private Integer noOfSeasons;
@@ -12,7 +12,8 @@ public class SerialDetails implements Serializable {
     private String director;
     private String releaseYear;
 
-    public SerialDetails(String name, String image,Integer noOfSeasons,Integer noOfEpisodes,String genres, String director, String releaseYear) {
+    public SerialDetails(Integer id, String name, String image,Integer noOfSeasons,Integer noOfEpisodes,String genres, String director, String releaseYear) {
+        this.id = id;
         this.name = name;
         this.image = image;
         this.noOfSeasons = noOfSeasons;
@@ -92,5 +93,13 @@ public class SerialDetails implements Serializable {
                 ", director='" + director + '\'' +
                 ", releaseYear='" + releaseYear + '\'' +
                 '}';
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
