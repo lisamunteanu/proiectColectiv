@@ -1,7 +1,6 @@
 package grupa235.proiectColectiv.model;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 
 @Entity
 @Table(name="movies")
@@ -23,28 +22,36 @@ public class Movie implements Serializable {
     @Column(name="duration")
     private Integer duration;
 
-    @Column(name="rating")
-    private Double rating;
-
     @Column(name="director")
     private String director;
 
     @Column(name = "image")
     private String image;
 
+    @Column(name = "description")
+    private String description;
+
 
     public Movie() {
     }
 
     public Movie(String name, String genres, String releaseYear, Integer duration, Double rating, String director,
-                 String image) {
+                 String image, String description) {
         this.name = name;
         this.genres = genres;
         this.releaseYear = releaseYear;
         this.duration = duration;
-        this.rating = rating;
         this.director = director;
         this.image=image;
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getId() {
@@ -85,14 +92,6 @@ public class Movie implements Serializable {
 
     public void setDuration(Integer duration) {
         this.duration = duration;
-    }
-
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
     }
 
     public String getDirector() {

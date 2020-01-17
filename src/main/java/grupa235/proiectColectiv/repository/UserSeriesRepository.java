@@ -2,6 +2,7 @@ package grupa235.proiectColectiv.repository;
 
 import grupa235.proiectColectiv.identities.UserSeriesId;
 import grupa235.proiectColectiv.model.RepoUser;
+import grupa235.proiectColectiv.model.Series;
 import grupa235.proiectColectiv.model.UserSeries;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +18,7 @@ public interface UserSeriesRepository extends JpaRepository<UserSeries, UserSeri
 
     @Query(value = "select * from user_series e where e.id_user= :userId and e.watch_later=true", nativeQuery = true)
     List<UserSeries> getAllWatchLaterSeriesByUser(@Param("userId") RepoUser user);
+
+    @Query(value = "select avg(e.rating) from user_series e where e.id_series= :seriesId and e.rating>0", nativeQuery = true)
+    Double avgRatingBySeries(@Param("seriesId") Series series);
 }

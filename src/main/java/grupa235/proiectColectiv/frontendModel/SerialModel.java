@@ -1,27 +1,56 @@
 package grupa235.proiectColectiv.frontendModel;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 public class SerialModel implements Serializable {
 
+    private Integer id;
     private String name;
     private String image;
     private Integer noOfEpisodes;
     private Integer noOfSeasons;
     private String genres;
     private String director;
+    private Double rating;
+    private String releaseYear;
 
-    public SerialModel(String name, String image,Integer noOfEpisodes, Integer noOfSeasons, String genres, String director) {
+    public SerialModel(Integer id, String name, String image, Integer noOfEpisodes, Integer noOfSeasons, String genres, String director, Double rating, String releaseYear) {
+        this.id = id;
         this.name = name;
         this.image = image;
         this.noOfEpisodes = noOfEpisodes;
         this.noOfSeasons = noOfSeasons;
         this.genres = genres;
         this.director = director;
+        this.rating = rating;
+        this.releaseYear = releaseYear;
     }
 
     public SerialModel() {
+    }
+
+    public String getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(String releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
     public String getName() {

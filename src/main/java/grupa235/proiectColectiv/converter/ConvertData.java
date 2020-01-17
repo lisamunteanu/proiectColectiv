@@ -19,6 +19,31 @@ public class ConvertData {
         return databaseSerial;
     }
 
+    public static Series convertSerialModelToSerial(SerialPostModel serialPostModel) {
+        Series databaseSerial = new Series();
+        databaseSerial.setName(serialPostModel.getName());
+        databaseSerial.setReleaseYear(String.valueOf(LocalDate.now().getYear()));
+        databaseSerial.setDirector(serialPostModel.getDirector());
+        databaseSerial.setGenres(serialPostModel.getGenres());
+        databaseSerial.setImage(serialPostModel.getImage());
+        databaseSerial.setDescription(serialPostModel.getDescription());
+        return databaseSerial;
+    }
+
+    public static SerialModel convertSerialToSerialModel(Series series, Double rating) {
+        SerialModel serialModel = new SerialModel();
+        serialModel.setId(series.getId());
+        serialModel.setName(series.getName());
+        serialModel.setRating(rating);
+        serialModel.setNoOfEpisodes(series.getNoOfEpisodes());
+        serialModel.setNoOfSeasons(series.getNoOfSeasons());
+        serialModel.setReleaseYear(series.getReleaseYear());
+        serialModel.setDirector(series.getDirector());
+        serialModel.setGenres(series.getGenres());
+        serialModel.setImage(series.getImage());
+        return serialModel;
+    }
+
     public static Season convertSeasonModelToSeason(SeasonModel seasonModel) {
         Season season = new Season();
         season.setGeneralDescription(seasonModel.getGeneralDescription());
@@ -43,39 +68,41 @@ public class ConvertData {
         movie.setDuration(movieModel.getDuration());
         movie.setGenres(movieModel.getGenres());
         movie.setImage(movieModel.getImage());
-        movie.setRating(movieModel.getRating());
         movie.setReleaseYear(movieModel.getReleaseYear());
         return movie;
     }
 
-    public static MovieModel convertMovieToMovieModel(Movie movie) {
+    public static MovieModel convertMovieToMovieModel(Movie movie, Double rating) {
         MovieModel movieModel = new MovieModel();
         movieModel.setName(movie.getName());
+        movieModel.setId(movie.getId());
+        movieModel.setRating(rating);
         movieModel.setDirector(movie.getDirector());
         movieModel.setDuration(movie.getDuration());
         movieModel.setGenres(movie.getGenres());
         movieModel.setImage(movie.getImage());
-        movieModel.setRating(movie.getRating());
         movieModel.setReleaseYear(movie.getReleaseYear());
         return movieModel;
     }
 
-    public static MovieDetails convertMovieToMovieDetails(Movie movie){
+    public static MovieDetails convertMovieToMovieDetails(Movie movie, Double rating){
         MovieDetails movieDetails = new MovieDetails();
-        movieDetails.setId(movie.getId());
         movieDetails.setName(movie.getName());
+        movieDetails.setId(movie.getId());
+        movieDetails.setRating(rating);
         movieDetails.setDirector(movie.getDirector());
         movieDetails.setDuration(movie.getDuration());
         movieDetails.setGenres(movie.getGenres());
-        movieDetails.setRating(movie.getRating());
         movieDetails.setReleaseYear(movie.getReleaseYear());
         movieDetails.setImage(movie.getImage());
         return movieDetails;
     }
 
-    public static SerialDetails convertSerialToSerialDetails(Series serialDetails) {
+    public static SerialDetails convertSerialToSerialDetails(Series serialDetails, Double rating) {
         SerialDetails serial = new SerialDetails();
         serial.setId(serialDetails.getId());
+        serial.setDescription(serialDetails.getDescription());
+        serial.setRating(rating);
         serial.setImage(serialDetails.getImage());
         serial.setGenres(serialDetails.getGenres());
         serial.setDirector(serialDetails.getDirector());
