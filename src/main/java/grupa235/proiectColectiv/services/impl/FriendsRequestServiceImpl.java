@@ -35,8 +35,8 @@ public class FriendsRequestServiceImpl implements FriendsRequestService {
 
     @Override
     public FriendsRequestModel sendFriendRequest(String sendByUser ,String userName) throws Exception{
-        RepoUser repoUser = this.userRepository.findByUsername(userName);
-        Optional<FriendsRequest> optionalFriendsRequest = this.friendsRequestRepository.existThisRequest(sendByUser,repoUser.getId());
+        Optional<RepoUser> repoUser = this.userRepository.findByUsername(userName);
+        Optional<FriendsRequest> optionalFriendsRequest = this.friendsRequestRepository.existThisRequest(sendByUser,repoUser.get().getId());
         if (!optionalFriendsRequest.isPresent()){
             FriendsRequest friendsRequest = new FriendsRequest();
             friendsRequest.setSendByUser(sendByUser);
@@ -84,10 +84,10 @@ public class FriendsRequestServiceImpl implements FriendsRequestService {
     }
 
     @Override
-    public List<FriendsRequestModel> getAllFriendsRequest(String name) throws Exception {
+    public List<FriendsRequestModel> getAllFriendsRequest(String name) {
         List<FriendsRequestModel> friendsRequestModels = new ArrayList<>();
-        RepoUser repoUser = this.userRepository.findByUsername(name);
-        Optional<List<FriendsRequest>> optionalFriendsRequest = this.friendsRequestRepository.getRequestByAUser(repoUser.getId());
+        Optional<RepoUser> repoUser = this.userRepository.findByUsername(name);
+        Optional<List<FriendsRequest>> optionalFriendsRequest = this.friendsRequestRepository.getRequestByAUser(repoUser.get().getId());
         if (optionalFriendsRequest.isPresent()){
             List<FriendsRequest> friendsRequests = optionalFriendsRequest.get();
             friendsRequests.forEach(x->{friendsRequestModels.add(ConvertData.convertFriendsRequestToFriendsRequestModel(x));});

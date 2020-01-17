@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
         if (repoUsers.isPresent()){
             newFriends = repoUsers.get();
             names = getAllFriendsUsingAnId(repoUser.get().getId(),newFriends);
-            return getAllNewFriends(names,repoUser.get().getUsername());
+            return getAllNewFriends(names,repoUser.get().getUsername(),repoUser.get());
         }
         else{
             names = getAllFriendsName(userName);
