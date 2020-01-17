@@ -45,7 +45,7 @@ public class MovieController {
         }
     }
 
-    @GetMapping(value = "movies/details/{movieName}/")
+    @GetMapping(value = "movies/details/{movieName}")
     public ResponseEntity<?> getDetailsForAMovie(@PathVariable String movieName){
         MovieDetails movieDetails = this.movieService.getDetailsForAMovie(movieName);
         if (movieDetails!=null){

@@ -93,8 +93,8 @@ public class ConvertData {
         movieDetails.setDirector(movie.getDirector());
         movieDetails.setDuration(movie.getDuration());
         movieDetails.setGenres(movie.getGenres());
-        movieDetails.setDuration(movie.getDuration());
         movieDetails.setReleaseYear(movie.getReleaseYear());
+        movieDetails.setImage(movie.getImage());
         return movieDetails;
     }
 
@@ -134,5 +134,11 @@ public class ConvertData {
         Image image = new Image();
         image.setImage(userImage.getImage());
         return image;
+    }
+
+    public static FriendsRequestModel convertFriendsRequestToFriendsRequestModel(FriendsRequest friendsRequest){
+        FriendsRequestModel friendsRequestModel = new FriendsRequestModel();
+        friendsRequestModel.setFriendsRequest(friendsRequest.getSendByUser());
+        return friendsRequestModel;
     }
 }
