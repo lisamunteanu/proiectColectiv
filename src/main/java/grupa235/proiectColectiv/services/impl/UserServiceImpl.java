@@ -31,12 +31,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public RepoUser findUserByEmail(String email) {
+    public Optional<RepoUser> findUserByEmail(String email) {
         return userRepository.findByUsername(email);
     }
 
     @Override
-    public RepoUser findUserByResetToken(String resetToken) {
+    public Optional<RepoUser> findUserByResetToken(String resetToken) {
         return userRepository.findByResetToken(resetToken);
     }
 
@@ -47,36 +47,36 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public RepoUser update(RepoUser user,String password) {
-        RepoUser found = userRepository.findByUsername(user.getUsername());
-        if(found == null)
+        Optional<RepoUser> found = userRepository.findByUsername(user.getUsername());
+        if(!found.isPresent())
             throw new UsernameNotFoundException(user.getUsername());
-        found.setPassword(password);
-        return found;
+        found.get().setPassword(password);
+        return found.get();
     }
 
     @Override
-    public List<String> getFriends(String userName) throws Exception{
-        RepoUser repoUser = this.userRepository.findByUsername(userName);
+    public List<String> getFriends(String userName){
+        Optional<RepoUser> repoUser = this.userRepository.findByUsername(userName);
         List<Friends> friends;
         List<String> names = new ArrayList<>();
-        Optional<List<Friends>> repoUsers = this.friendsRepository.getFriends(repoUser.getId());
+        Optional<List<Friends>> repoUsers = this.friendsRepository.getFriends(repoUser.get().getId());
         if (repoUsers.isPresent()){
             friends = repoUsers.get();
-            names = getAllFriendsUsingAnId(repoUser.getId(),friends);
+            names = getAllFriendsUsingAnId(repoUser.get().getId(),friends);
         }
         return names;
     }
 
     @Override
-    public List<String> searchForNewFriends(String userName) throws Exception {
-        RepoUser repoUser = this.userRepository.findByUsername(userName);
+    public List<String> searchForNewFriends(String userName) {
+        Optional<RepoUser> repoUser = this.userRepository.findByUsername(userName);
         List<Friends> newFriends;
         List<String> names = new ArrayList<>();
-        Optional<List<Friends>> repoUsers = this.friendsRepository.getFriends(repoUser.getId());
+        Optional<List<Friends>> repoUsers = this.friendsRepository.getFriends(repoUser.get().getId());
         if (repoUsers.isPresent()){
             newFriends = repoUsers.get();
-            names = getAllFriendsUsingAnId(repoUser.getId(),newFriends);
-            return getAllNewFriends(names,repoUser.getUsername(),repoUser);
+            names = getAllFriendsUsingAnId(repoUser.get().getId(),newFriends);
+            return getAllNewFriends(names,repoUser.get().getUsername(),repoUser.get());
         }
         else{
             names = getAllFriendsName(userName);

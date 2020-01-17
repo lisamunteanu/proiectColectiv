@@ -35,12 +35,12 @@ public class FriendsRequestServiceImpl implements FriendsRequestService {
 
     @Override
     public FriendsRequestModel sendFriendRequest(String sendByUser ,String userName) throws Exception{
-        RepoUser repoUser = this.userRepository.findByUsername(userName);
-        Optional<FriendsRequest> optionalFriendsRequest = this.friendsRequestRepository.existThisRequest(sendByUser,repoUser.getId());
+        Optional<RepoUser> repoUser = this.userRepository.findByUsername(userName);
+        Optional<FriendsRequest> optionalFriendsRequest = this.friendsRequestRepository.existThisRequest(sendByUser,repoUser.get().getId());
         if (!optionalFriendsRequest.isPresent()){
             FriendsRequest friendsRequest = new FriendsRequest();
             friendsRequest.setSendByUser(sendByUser);
-            friendsRequest.setUser(repoUser);
+            friendsRequest.setUser(repoUser.get());
             this.friendsRequestRepository.save(friendsRequest);
             FriendsRequestModel requestModel = new FriendsRequestModel();
             requestModel.setFriendsRequest(sendByUser);
@@ -52,16 +52,16 @@ public class FriendsRequestServiceImpl implements FriendsRequestService {
     @Transactional
     @Override
     public boolean acceptRequest(String currentNameUser, String user) throws Exception{
-        RepoUser firstUser = this.userRepository.findByUsername(currentNameUser);
-        RepoUser secondUser = this.userRepository.findByUsername(user);
-        Optional<Friends> optionalFriends = this.friendsRepository.existFriends(firstUser.getId(),secondUser.getId());
+        Optional<RepoUser> firstUser = this.userRepository.findByUsername(currentNameUser);
+        Optional<RepoUser> secondUser = this.userRepository.findByUsername(user);
+        Optional<Friends> optionalFriends = this.friendsRepository.existFriends(firstUser.get().getId(),secondUser.get().getId());
         if (!optionalFriends.isPresent()) {
             if (firstUser != null && secondUser != null) {
                 Friends friends = new Friends();
-                friends.setFirstUser(firstUser);
-                friends.setSecondUser(secondUser);
+                friends.setFirstUser(firstUser.get());
+                friends.setSecondUser(secondUser.get());
                 this.friendsRepository.save(friends);
-                this.friendsRequestRepository.deleteRequest(user, firstUser.getId());
+                this.friendsRequestRepository.deleteRequest(user, firstUser.get().getId());
                 return true;
             }
         }
@@ -74,20 +74,20 @@ public class FriendsRequestServiceImpl implements FriendsRequestService {
     @Transactional
     @Override
     public boolean cancelRequest(String currentNameUser, String user) throws Exception {
-        RepoUser repoUser = this.userRepository.findByUsername(currentNameUser);
-        RepoUser sendBy = this.userRepository.findByUsername(user);
-        if (repoUser!=null && sendBy!=null){
-            this.friendsRequestRepository.deleteRequest(user,repoUser.getId());
+        Optional<RepoUser> repoUser = this.userRepository.findByUsername(currentNameUser);
+        Optional<RepoUser> sendBy = this.userRepository.findByUsername(user);
+        if (!repoUser.isPresent() && !sendBy.isPresent()){
+            this.friendsRequestRepository.deleteRequest(user,repoUser.get().getId());
             return true;
         }
         throw new Exception("A user was deleted!");
     }
 
     @Override
-    public List<FriendsRequestModel> getAllFriendsRequest(String name) throws Exception {
+    public List<FriendsRequestModel> getAllFriendsRequest(String name) {
         List<FriendsRequestModel> friendsRequestModels = new ArrayList<>();
-        RepoUser repoUser = this.userRepository.findByUsername(name);
-        Optional<List<FriendsRequest>> optionalFriendsRequest = this.friendsRequestRepository.getRequestByAUser(repoUser.getId());
+        Optional<RepoUser> repoUser = this.userRepository.findByUsername(name);
+        Optional<List<FriendsRequest>> optionalFriendsRequest = this.friendsRequestRepository.getRequestByAUser(repoUser.get().getId());
         if (optionalFriendsRequest.isPresent()){
             List<FriendsRequest> friendsRequests = optionalFriendsRequest.get();
             friendsRequests.forEach(x->{friendsRequestModels.add(ConvertData.convertFriendsRequestToFriendsRequestModel(x));});

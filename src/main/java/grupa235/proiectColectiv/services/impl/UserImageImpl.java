@@ -28,12 +28,12 @@ public class UserImageImpl implements UserImageService {
     @Transactional
     @Override
     public Image saveImage(String userName, String urlImage) {
-        RepoUser repoUser = this.userRepository.findByUsername(userName);
+        Optional<RepoUser> repoUser = this.userRepository.findByUsername(userName);
         UserImage userImage = new UserImage(urlImage);
-        userImage.setUser(repoUser);
+        userImage.setUser(repoUser.get());
         Image image = getImage(userName);
         if (image!=null){
-            this.userImageRepository.updateImage(urlImage,repoUser.getId());
+            this.userImageRepository.updateImage(urlImage,repoUser.get().getId());
         }
         else{
             this.userImageRepository.save(userImage);
@@ -43,8 +43,8 @@ public class UserImageImpl implements UserImageService {
 
     @Override
     public Image getImage(String userName) {
-        RepoUser repoUser = this.userRepository.findByUsername(userName);
-        Optional<UserImage> userImage = this.userImageRepository.getImage(repoUser.getId());
+        Optional<RepoUser> repoUser = this.userRepository.findByUsername(userName);
+        Optional<UserImage> userImage = this.userImageRepository.getImage(repoUser.get().getId());
         return userImage.map(ConvertData::convertUserImageToImage).orElse(null);
     }
 }
