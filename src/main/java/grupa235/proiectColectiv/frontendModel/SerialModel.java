@@ -101,6 +101,7 @@ public class SerialModel implements Serializable {
         this.director = director;
     }
 
+
     @Override
     public String toString() {
         return "SerialModel{" +
