@@ -62,12 +62,14 @@ public class ConvertData {
 
     public static MovieDetails convertMovieToMovieDetails(Movie movie){
         MovieDetails movieDetails = new MovieDetails();
+        movieDetails.setId(movie.getId());
         movieDetails.setName(movie.getName());
         movieDetails.setDirector(movie.getDirector());
         movieDetails.setDuration(movie.getDuration());
         movieDetails.setGenres(movie.getGenres());
         movieDetails.setRating(movie.getRating());
         movieDetails.setReleaseYear(movie.getReleaseYear());
+        movieDetails.setImage(movie.getImage());
         return movieDetails;
     }
 

@@ -3,7 +3,7 @@ package grupa235.proiectColectiv.frontendModel;
 import java.io.Serializable;
 
 public class MovieDetails implements Serializable {
-
+    private Integer   id;
     private String name;
     private String genres;
     private String releaseYear;
@@ -12,7 +12,8 @@ public class MovieDetails implements Serializable {
     private String director;
     private String image;
 
-    public MovieDetails(String name, String genres, String releaseYear, Integer duration, Double rating, String director, String image) {
+    public MovieDetails(Integer id,String name, String genres, String releaseYear, Integer duration, Double rating, String director, String image) {
+        this.id = id;
         this.name = name;
         this.genres = genres;
         this.releaseYear = releaseYear;
@@ -78,6 +79,15 @@ public class MovieDetails implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override

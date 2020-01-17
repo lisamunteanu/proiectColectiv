@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
         if (repoUsers.isPresent()){
             newFriends = repoUsers.get();
             names = getAllFriendsUsingAnId(repoUser.getId(),newFriends);
-            return getAllNewFriends(names,repoUser.getUsername());
+            return getAllNewFriends(names,repoUser.getUsername(),repoUser);
         }
         else{
             names = getAllFriendsName(userName);
@@ -106,10 +106,16 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-    private List<String> getAllNewFriends(List<String> currentFriends, String currentUserName){
+    private List<String> getAllNewFriends(List<String> currentFriends, String currentUserName, RepoUser repoUser){
         List<RepoUser> repoUserList = (List<RepoUser>) this.userRepository.findAll();
         List<String> possibleFriends = new ArrayList<>();
-
+        List<FriendsRequest> friendsRequests = this.friendsRequestRepository.findAll();
+        friendsRequests.forEach(x->{
+            if(x.getUser().getId() == repoUser.getId()) {
+                RepoUser repoUser1 = new RepoUser(x.getSendByUser());
+                repoUserList.add(repoUser1);
+            }
+        });
         for (RepoUser user : repoUserList){
             if (!findName(currentFriends,user.getUsername()) && !user.getUsername().equals(currentUserName) && !user.getRole().equals("2")){
                 possibleFriends.add(user.getUsername());
