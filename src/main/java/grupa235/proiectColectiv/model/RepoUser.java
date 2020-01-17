@@ -28,6 +28,14 @@ public class RepoUser {
     @Column(name="user_role")
     private String role;
 
+    public RepoUser(String username) {
+        this.username = username;
+    }
+
+    public RepoUser() {
+
+    }
+
     public long getId() {
         return id;
     }
@@ -63,4 +71,6 @@ public class RepoUser {
     public void setRole(String role) {
         this.role = role;
     }
+
+
 }

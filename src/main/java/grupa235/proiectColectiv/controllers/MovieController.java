@@ -1,6 +1,5 @@
 package grupa235.proiectColectiv.controllers;
 
-import grupa235.proiectColectiv.converter.ConvertData;
 import grupa235.proiectColectiv.frontendModel.*;
 import grupa235.proiectColectiv.model.Friends;
 import grupa235.proiectColectiv.model.Movie;
@@ -16,7 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -36,21 +37,17 @@ public class MovieController {
     UserService userService;
 
     @GetMapping(value = "/movies")
-    public ResponseEntity<List<Movie>> findAllMovies() {
-        List<Movie> allMovies = movieService.findAllMovies();
-        List<MovieModel> convertedMovies = new ArrayList<>();
-        for (Movie m : allMovies) {
-            convertedMovies.add(ConvertData.convertMovieToMovieModel(m));
-        }
+    public ResponseEntity<List<MovieModel>> findAllMovies() {
+        List<MovieModel> allMovies = movieService.findAllMovies();
         return new ResponseEntity<>(allMovies, HttpStatus.OK);
     }
 
     @GetMapping(value = "movies/{id}")
     public ResponseEntity<Map<String, MovieModel>> findMovieById(@PathVariable String id) {
-        Optional<Movie> movie = movieService.findById(Integer.parseInt(id));
+        MovieModel movie = movieService.findById(Integer.parseInt(id));
         Map<String, MovieModel> response = new HashMap<>();
-        if (movie.isPresent()) {
-            response.put("Movie found", ConvertData.convertMovieToMovieModel(movie.get()));
+        if (movie!=null) {
+            response.put("Movie found", movie);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.put("Movie not found", null);
@@ -58,7 +55,7 @@ public class MovieController {
         }
     }
 
-    @GetMapping(value = "movies/details/{movieName}/")
+    @GetMapping(value = "movies/details/{movieName}")
     public ResponseEntity<?> getDetailsForAMovie(@PathVariable String movieName){
         MovieDetails movieDetails = this.movieService.getDetailsForAMovie(movieName);
         if (movieDetails!=null){
@@ -67,16 +64,16 @@ public class MovieController {
         return new ResponseEntity<>(new Message("There is not a movie with this name!"),HttpStatus.BAD_REQUEST);
     }
     @GetMapping(value = "movies/watch-later")
-    public ResponseEntity<List<MovieModel>> findAllWatchLaterMovies() throws Exception {
+    public ResponseEntity<List<Movie>> findAllWatchLaterMovies(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
         String username = currentPrincipalName.getUsername();
         List<Movie> allMovies = movieService.findAllWatchLaterForUser(username);
-        List<MovieModel> convertedMovies = new ArrayList<>();
-        for (Movie m : allMovies) {
-            convertedMovies.add(ConvertData.convertMovieToMovieModel(m));
-        }
-        return new ResponseEntity<>(convertedMovies, HttpStatus.OK);
+//        List<MovieModel> convertedMovies = new ArrayList<>();
+//        for (Movie m : allMovies) {
+//            convertedMovies.add(ConvertData.convertMovieToMovieModel(m));
+//        }
+        return new ResponseEntity<>(allMovies, HttpStatus.OK);
     }
 
     @PostMapping(value = "movies/{id}/watch-later")
@@ -89,16 +86,16 @@ public class MovieController {
     }
 
     @GetMapping(value = "movies/history")
-    public ResponseEntity<List<MovieModel>> findAllMovieHistory() throws Exception {
+    public ResponseEntity<List<Movie>> findAllMovieHistory(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails currentPrincipalName = (UserDetails) authentication.getPrincipal();
         String username = currentPrincipalName.getUsername();
         List<Movie> allMovies = movieService.findAllMovieHistoryForUser(username);
-        List<MovieModel> convertedMovies = new ArrayList<>();
-        for (Movie m : allMovies) {
-            convertedMovies.add(ConvertData.convertMovieToMovieModel(m));
-        }
-        return new ResponseEntity<>(convertedMovies, HttpStatus.OK);
+//        List<MovieModel> convertedMovies = new ArrayList<>();
+//        for (Movie m : allMovies) {
+//            convertedMovies.add(ConvertData.convertMovieToMovieModel(m));
+//        }
+        return new ResponseEntity<>(allMovies, HttpStatus.OK);
     }
 
     @PostMapping(value = "movies/{id}/history")

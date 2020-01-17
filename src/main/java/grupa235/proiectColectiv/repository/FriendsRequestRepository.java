@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface FriendsRequestRepository extends JpaRepository<FriendsRequest,Long> {
 
     @Query(value ="select * from friendsrequest fr where fr.sendby = :userSendBy and fr.id_user = :userId limit 1" ,nativeQuery = true)
-    Optional<FriendsRequest> existThisRequest(@Param("userSendBy") String userName, @Param("userId") Long userId);
+    Optional<FriendsRequest> existThisRequest(@Param("userSendBy") String userSendBy, @Param("userId") Long userId);
 
     @Modifying
     @Query(value ="delete from friendsrequest where sendby = :userSendBy and id_user = :userId " ,nativeQuery = true)

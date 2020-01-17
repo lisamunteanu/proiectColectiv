@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class SerialDetails implements Serializable {
 
+    private Integer id;
     private String name;
     private String image;
     private Integer noOfSeasons;
@@ -11,8 +12,11 @@ public class SerialDetails implements Serializable {
     private String genres;
     private String director;
     private String releaseYear;
+    private Double rating;
+    private String description;
 
-    public SerialDetails(String name, String image,Integer noOfSeasons,Integer noOfEpisodes,String genres, String director, String releaseYear) {
+    public SerialDetails(Integer id, String name, String image, Integer noOfSeasons, Integer noOfEpisodes, String genres, String director, String releaseYear, Double rating, String description) {
+        this.id = id;
         this.name = name;
         this.image = image;
         this.noOfSeasons = noOfSeasons;
@@ -20,9 +24,35 @@ public class SerialDetails implements Serializable {
         this.genres = genres;
         this.director = director;
         this.releaseYear = releaseYear;
+        this.rating = rating;
+        this.description = description;
     }
 
     public SerialDetails() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getName() {

@@ -1,8 +1,10 @@
 package grupa235.proiectColectiv.services.impl;
 
 import grupa235.proiectColectiv.model.Friends;
+import grupa235.proiectColectiv.model.FriendsRequest;
 import grupa235.proiectColectiv.model.RepoUser;
 import grupa235.proiectColectiv.repository.FriendsRepository;
+import grupa235.proiectColectiv.repository.FriendsRequestRepository;
 import grupa235.proiectColectiv.repository.UserRepository;
 import grupa235.proiectColectiv.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final FriendsRepository friendsRepository;
+    private final FriendsRequestRepository friendsRequestRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, FriendsRepository friendsRepository) {
+    public UserServiceImpl(UserRepository userRepository, FriendsRepository friendsRepository, FriendsRequestRepository friendsRequestRepository) {
         this.userRepository = userRepository;
         this.friendsRepository = friendsRepository;
+        this.friendsRequestRepository = friendsRequestRepository;
     }
 
     @Override
@@ -75,7 +79,7 @@ public class UserServiceImpl implements UserService {
             return getAllNewFriends(names,repoUser.get().getUsername());
         }
         else{
-            names = getAllFriendsName();
+            names = getAllFriendsName(userName);
         }
         return names;
     }
@@ -102,20 +106,33 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-    private List<String> getAllNewFriends(List<String> currentFriends, String currentUserName){
+    private List<String> getAllNewFriends(List<String> currentFriends, String currentUserName, RepoUser repoUser){
         List<RepoUser> repoUserList = (List<RepoUser>) this.userRepository.findAll();
         List<String> possibleFriends = new ArrayList<>();
+        List<FriendsRequest> friendsRequests = this.friendsRequestRepository.findAll();
+        friendsRequests.forEach(x->{
+            if(x.getUser().getId() == repoUser.getId()) {
+                RepoUser repoUser1 = new RepoUser(x.getSendByUser());
+                repoUserList.add(repoUser1);
+            }
+        });
         for (RepoUser user : repoUserList){
-            if (!findName(currentFriends,user.getUsername()) && !user.getUsername().equals(currentUserName)){
+            if (!findName(currentFriends,user.getUsername()) && !user.getUsername().equals(currentUserName) && !user.getRole().equals("2")){
                 possibleFriends.add(user.getUsername());
             }
         }
         return possibleFriends;
     }
 
-    private List<String> getAllFriendsName(){
+    private List<String> getAllFriendsName(String currentName){
+        List<String> names = new ArrayList<>();
         List<RepoUser> repoUserList = (List<RepoUser>) this.userRepository.findAll();
-        return repoUserList.stream().map(RepoUser::getUsername).collect(Collectors.toList());
+        repoUserList.forEach(x->{
+            if ( !x.getUsername().equals(currentName) && !x.getRole().equals("2")){
+                names.add(x.getUsername());
+            }
+        });
+        return names;
     }
 
 }
