@@ -9,9 +9,10 @@ public class MovieModel {
     private String director;
     private Double rating;
     private String image;
+    private String description;
 
     public MovieModel(Integer id, String name, String genres, String releaseYear,
-                      Integer duration, String director, Double rating, String image) {
+                      Integer duration, String director, Double rating, String image, String description) {
         this.id = id;
         this.name = name;
         this.genres = genres;
@@ -20,9 +21,18 @@ public class MovieModel {
         this.director = director;
         this.rating = rating;
         this.image = image;
+        this.description = description;
     }
 
     public MovieModel() {
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getId() {

@@ -13,8 +13,17 @@ public class SerialModel implements Serializable {
     private String director;
     private Double rating;
     private String releaseYear;
+    private String description;
 
-    public SerialModel(Integer id, String name, String image, Integer noOfEpisodes, Integer noOfSeasons, String genres, String director, Double rating, String releaseYear) {
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public SerialModel(Integer id, String name, String image, Integer noOfEpisodes, Integer noOfSeasons, String genres, String director, Double rating, String releaseYear, String description) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -24,6 +33,7 @@ public class SerialModel implements Serializable {
         this.director = director;
         this.rating = rating;
         this.releaseYear = releaseYear;
+        this.description = description;
     }
 
     public SerialModel() {

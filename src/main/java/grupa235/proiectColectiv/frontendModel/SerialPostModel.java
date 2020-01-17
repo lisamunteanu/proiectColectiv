@@ -41,6 +41,27 @@ public class SerialPostModel implements Serializable {
         return description;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setGenres(String genres) {
+        this.genres = genres;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
     @Override
     public String toString() {
         return "SerialPostModel{" +
