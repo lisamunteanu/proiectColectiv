@@ -16,6 +16,7 @@ public class ConvertData {
         databaseSerial.setDirector(serialModel.getDirector());
         databaseSerial.setGenres(serialModel.getGenres());
         databaseSerial.setImage(serialModel.getImage());
+        databaseSerial.setDescription(serialModel.getDescription());
         return databaseSerial;
     }
 
@@ -41,6 +42,7 @@ public class ConvertData {
         serialModel.setDirector(series.getDirector());
         serialModel.setGenres(series.getGenres());
         serialModel.setImage(series.getImage());
+        serialModel.setDescription(series.getDescription());
         return serialModel;
     }
 
@@ -69,6 +71,7 @@ public class ConvertData {
         movie.setGenres(movieModel.getGenres());
         movie.setImage(movieModel.getImage());
         movie.setReleaseYear(movieModel.getReleaseYear());
+        movie.setDescription(movieModel.getDescription());
         return movie;
     }
 
@@ -82,6 +85,7 @@ public class ConvertData {
         movieModel.setGenres(movie.getGenres());
         movieModel.setImage(movie.getImage());
         movieModel.setReleaseYear(movie.getReleaseYear());
+        movieModel.setDescription(movie.getDescription());
         return movieModel;
     }
 
@@ -95,6 +99,7 @@ public class ConvertData {
         movieDetails.setGenres(movie.getGenres());
         movieDetails.setReleaseYear(movie.getReleaseYear());
         movieDetails.setImage(movie.getImage());
+        movieDetails.setDescription(movie.getDescription());
         return movieDetails;
     }
 

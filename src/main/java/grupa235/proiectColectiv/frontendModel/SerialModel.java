@@ -15,13 +15,6 @@ public class SerialModel implements Serializable {
     private String releaseYear;
     private String description;
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public SerialModel(Integer id, String name, String image, Integer noOfEpisodes, Integer noOfSeasons, String genres, String director, Double rating, String releaseYear, String description) {
         this.id = id;
@@ -37,6 +30,14 @@ public class SerialModel implements Serializable {
     }
 
     public SerialModel() {
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getReleaseYear() {
